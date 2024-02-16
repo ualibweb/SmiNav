@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://dv1hnpkjm80hc"]
+
+[node name="Arromatic Bond" type="Node2D"]
+
+[node name="Highlight" type="Polygon2D" parent="."]
+z_index = -1
+z_as_relative = false
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(0, -5, 0, 5, 1, 5, 1, -5)
+
+[node name="Line2D2" type="Line2D" parent="."]
+position = Vector2(0, 2)
+points = PackedVector2Array(0, 0, 1, 0)
+width = 2.5
+default_color = Color(0, 0, 0, 1)
+
+[node name="Dotted Line" type="Node2D" parent="."]
+position = Vector2(0, -2)
+
+[node name="Line2D" type="Line2D" parent="Dotted Line"]
+points = PackedVector2Array(0.05, 0, 0.1, 0)
+width = 2.5
+default_color = Color(0, 0, 0, 1)
+
+[node name="Line2D2" type="Line2D" parent="Dotted Line"]
+points = PackedVector2Array(0.15, 0, 0.2, 0)
+width = 2.5
+default_color = Color(0, 0, 0, 1)
+
+[node name="Line2D3" type="Line2D" parent="Dotted Line"]
+points = PackedVector2Array(0.25, 0, 0.3, 0)
+width = 2.5
+default_color = Color(0, 0, 0, 1)
+
+[node name="Line2D4" type="Line2D" parent="Dotted Line"]
+points = PackedVector2Array(0.35, 0, 0.4, 0)
+width = 2.5
+default_color = Color(0, 0, 0, 1)
+
+[node name="Line2D5" type="Line2D" parent="Dotted Line"]
+points = PackedVector2Array(0.45, 0, 0.5, 0)
+width = 2.5
+default_color = Color(0, 0, 0, 1)
+
+[node name="Line2D6" type="Line2D" parent="Dotted Line"]
+points = PackedVector2Array(0.55, 0, 0.6, 0)
+width = 2.5
+default_color = Color(0, 0, 0, 1)
+
+[node name="Line2D7" type="Line2D" parent="Dotted Line"]
+points = PackedVector2Array(0.65, 0, 0.7, 0)
+width = 2.5
+default_color = Color(0, 0, 0, 1)
+
+[node name="Line2D8" type="Line2D" parent="Dotted Line"]
+points = PackedVector2Array(0.75, 0, 0.8, 0)
+width = 2.5
+default_color = Color(0, 0, 0, 1)
+
+[node name="Line2D9" type="Line2D" parent="Dotted Line"]
+points = PackedVector2Array(0.85, 0, 0.9, 0)
+width = 2.5
+default_color = Color(0, 0, 0, 1)
+
+[node name="Line2D10" type="Line2D" parent="Dotted Line"]
+points = PackedVector2Array(0.95, 0, 1, 0)
+width = 2.5
+default_color = Color(0, 0, 0, 1)

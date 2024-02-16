@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://dohtrelox64e1"]
+
+[ext_resource type="Script" path="res://Scenes/3D Visualizer/3d_smile_visualizer.gd" id="1_t3wey"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_kwslx"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_4b45j"]
+sky_material = SubResource("ProceduralSkyMaterial_kwslx")
+
+[sub_resource type="Environment" id="Environment_jv7ab"]
+background_mode = 2
+sky = SubResource("Sky_4b45j")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="3D SMILE Visualizer" type="Node3D"]
+script = ExtResource("1_t3wey")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_jv7ab")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+
+[node name="Structure" type="Node3D" parent="."]
+
+[node name="Button" type="Button" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -8.0
+offset_bottom = 8.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 25
+text = "Go Back"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

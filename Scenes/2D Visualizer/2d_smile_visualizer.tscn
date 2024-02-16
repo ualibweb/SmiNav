@@ -1,0 +1,121 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpubkwguuyxa1"]
+
+[ext_resource type="Script" path="res://Scenes/2D Visualizer/2d_smile_visualizer.gd" id="1_8mkie"]
+
+[node name="2D SMILE Visualizer" type="Node2D"]
+script = ExtResource("1_8mkie")
+
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(1280, 720)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -640.0
+offset_top = -360.0
+offset_right = 640.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+z_index = -10
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.819608, 0.847059, 1, 1)
+metadata/_edit_lock_ = true
+
+[node name="Button" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -121.0
+offset_top = 15.0
+offset_right = -15.0
+offset_bottom = 58.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 25
+text = "Go Back"
+
+[node name="SMILES Container" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -93.5
+offset_right = 93.5
+offset_bottom = 117.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/SMILES Container"]
+custom_minimum_size = Vector2(700, 90)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/SMILES Container/ScrollContainer"]
+custom_minimum_size = Vector2(700, 90)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+alignment = 1
+
+[node name="Label" type="Label" parent="Control/SMILES Container"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Hold Ctrl To Multi-Select"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Options" type="VBoxContainer" parent="Control"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 197.0
+offset_bottom = 108.0
+
+[node name="Label" type="Label" parent="Control/Options"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Select Highlight Color"
+
+[node name="OptionButton" type="OptionButton" parent="Control/Options"]
+layout_mode = 2
+item_count = 4
+selected = 3
+popup/item_0/text = "Red"
+popup/item_0/id = 0
+popup/item_1/text = "Purple"
+popup/item_1/id = 1
+popup/item_2/text = "Green"
+popup/item_2/id = 2
+popup/item_3/text = "Yellow"
+popup/item_3/id = 3
+
+[node name="CheckBox" type="CheckBox" parent="Control/Options"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.494118, 0.494118, 0.494118, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+text = "Highlight Neighbors"
+
+[node name="Structure" type="Node2D" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+metadata/_edit_lock_ = true
+
+[connection signal="pressed" from="Control/Button" to="." method="_on_button_pressed"]
+[connection signal="item_selected" from="Control/Options/OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="pressed" from="Control/Options/CheckBox" to="." method="_on_check_box_pressed"]
