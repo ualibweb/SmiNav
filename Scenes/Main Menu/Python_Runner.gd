@@ -1,11 +1,12 @@
 extends Control
 
 var system_ready = false
-@onready var smiles_input = $"HBoxContainer/Smiles Input"
-@onready var _3d = $"HBoxContainer/VBoxContainer/3D"
-@onready var _2d = $"HBoxContainer/VBoxContainer/2D"
+@onready var smiles_input = $"Options/Inputs/Smiles Input"
+@onready var _3d = $"Options/Inputs/VBoxContainer/3D"
+@onready var _2d = $"Options/Inputs/VBoxContainer/2D"
 @onready var python_install = $"Python Install"
 
+@onready var color_buttons = [$Options/Colors/Red, $Options/Colors/Yellow, $Options/Colors/Green, $Options/Colors/Purple]
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if not Globals.venv_exists:
@@ -13,6 +14,16 @@ func _ready():
 		_2d.disabled = true
 		python_install.visible = true
 	Globals.download_failed.connect(_on_download_failed)
+	Globals.modulate_highlight.connect(_on_update_colors)
+
+func _on_update_colors():
+	$Text/Title
+	$"Options/Inputs/Smiles Input"
+	$"Options/Inputs/VBoxContainer/2D"
+	$"Options/Inputs/VBoxContainer/3D"
+	$"Python Install"
+	$Github
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -58,3 +69,35 @@ func _on_download_failed(output_log: Array):
 
 func _on_python_install_pressed():
 	Globals.install_venv.emit()
+
+func _on_red_pressed():
+	var selected_button = color_buttons[0]
+	Globals.selected_color = Globals.NEON_RED
+	toggle_off_color_buttons(selected_button)
+	Globals.modulate_highlight.emit()
+
+func _on_yellow_pressed():
+	var selected_button = color_buttons[1]
+	Globals.selected_color = Globals.NEON_YELLOW
+	toggle_off_color_buttons(selected_button)
+	Globals.modulate_highlight.emit()
+
+
+func _on_green_pressed():
+	var selected_button = color_buttons[2]
+	Globals.selected_color = Globals.NEON_GREEN
+	toggle_off_color_buttons(selected_button)
+	Globals.modulate_highlight.emit()
+
+
+func _on_purple_pressed():
+	var selected_button = color_buttons[3]
+	Globals.selected_color = Globals.NEON_PURPLE
+	toggle_off_color_buttons(selected_button)
+	Globals.modulate_highlight.emit()
+
+func toggle_off_color_buttons(selected_button):
+	for button in color_buttons:
+		if button == selected_button:
+			continue
+		button.button_pressed = false

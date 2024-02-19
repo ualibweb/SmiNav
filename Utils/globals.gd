@@ -3,6 +3,11 @@ extends Node
 @onready var base_path = ProjectSettings.globalize_path("res://")
 @onready var output_log = FileAccess.open(base_path + "output_logs.txt", FileAccess.WRITE)
 
+const NEON_GREEN = Color8(15, 255, 80)
+const NEON_RED = Color8(255, 49, 49)
+const NEON_YELLOW = Color8(255, 255, 51)
+const NEON_PURPLE = Color8(157, 0, 255)
+
 const RED = Color8(255, 0, 0)
 const GREEN = Color8(0, 255, 0)
 const PURPLE = Color8(160, 32, 240)
@@ -11,6 +16,8 @@ const YELLOW = Color8(255,255,0)
 signal modulate_highlight(color_code: Color)
 signal download_failed(output_logs)
 signal install_venv()
+
+var selected_color = NEON_GREEN
 
 var venv_thread = Thread.new()
 var venv_exists = false
