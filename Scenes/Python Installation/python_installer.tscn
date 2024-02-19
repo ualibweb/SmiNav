@@ -1,0 +1,77 @@
+[gd_scene load_steps=4 format=3 uid="uid://722y3kprgv2k"]
+
+[ext_resource type="FontFile" uid="uid://d4bw7aq2ggi5w" path="res://Fonts/cour.ttf" id="1_k4bvx"]
+[ext_resource type="Script" path="res://Scenes/Python Installation/python_installer.gd" id="1_r74va"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tfdvm"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[node name="Python Installer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_r74va")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Text" type="VBoxContainer" parent="."]
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 1110.0
+offset_bottom = 196.0
+
+[node name="Title" type="Label" parent="Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0588235, 1, 0.313726, 1)
+theme_override_fonts/font = ExtResource("1_k4bvx")
+theme_override_font_sizes/font_size = 50
+text = "Installing Python..."
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Text"]
+custom_minimum_size = Vector2(1220, 500)
+layout_mode = 2
+theme_override_colors/default_color = Color(0.0588235, 1, 0.192157, 1)
+theme_override_fonts/normal_font = ExtResource("1_k4bvx")
+theme_override_font_sizes/normal_font_size = 25
+scroll_following = true
+
+[node name="Back" type="Button" parent="."]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -160.0
+offset_top = -80.0
+offset_right = -30.0
+offset_bottom = -30.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.0588235, 1, 0.313726, 1)
+theme_override_fonts/font = ExtResource("1_k4bvx")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_tfdvm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tfdvm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tfdvm")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_tfdvm")
+theme_override_styles/focus = SubResource("StyleBoxFlat_tfdvm")
+text = "Go Back"
+
+[connection signal="pressed" from="Back" to="." method="_on_back_pressed"]

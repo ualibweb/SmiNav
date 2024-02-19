@@ -5,6 +5,8 @@ var system_ready = false
 @onready var _3d = $"Options/Inputs/VBoxContainer/3D"
 @onready var _2d = $"Options/Inputs/VBoxContainer/2D"
 @onready var python_install = $"Python Install"
+@onready var title = $Text/Title
+@onready var github = $Github
 
 @onready var color_buttons = [$Options/Colors/Red, $Options/Colors/Yellow, $Options/Colors/Green, $Options/Colors/Purple]
 # Called when the node enters the scene tree for the first time.
@@ -13,17 +15,33 @@ func _ready():
 		_3d.disabled = true
 		_2d.disabled = true
 		python_install.visible = true
-	Globals.download_failed.connect(_on_download_failed)
 	Globals.modulate_highlight.connect(_on_update_colors)
+	Globals.modulate_highlight.emit()
+	_on_enter_colors()
+
+func _on_enter_colors():
+	var selected_button = null
+	if Globals.selected_color == Globals.NEON_RED:
+		selected_button = color_buttons[0]
+	elif  Globals.selected_color == Globals.NEON_YELLOW:
+		selected_button = color_buttons[1]
+	elif  Globals.selected_color == Globals.NEON_GREEN:
+		selected_button = color_buttons[2]
+	elif  Globals.selected_color == Globals.NEON_PURPLE:
+		selected_button = color_buttons[3]
+	else:
+		selected_button = color_buttons[2]
+	toggle_off_color_buttons(selected_button)
+
 
 func _on_update_colors():
-	$Text/Title
-	$"Options/Inputs/Smiles Input"
-	$"Options/Inputs/VBoxContainer/2D"
-	$"Options/Inputs/VBoxContainer/3D"
-	$"Python Install"
-	$Github
-	pass
+	title.add_theme_color_override("font_color", Globals.selected_color)
+	smiles_input.add_theme_color_override("font_color", Globals.selected_color)
+	smiles_input.add_theme_color_override("font_placeholder_color", Globals.selected_color)
+	_2d.add_theme_color_override("font_color", Globals.selected_color)
+	_3d.add_theme_color_override("font_color", Globals.selected_color)
+	python_install.add_theme_color_override("font_color", Globals.selected_color)
+	github.add_theme_color_override("font_color", Globals.selected_color)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -51,24 +69,8 @@ func _on_three_d_pressed():
 	else:
 		print("Wait, Venv is not ready yet")
 
-func _on_download_failed(output_log: Array):
-	var new_alert = AcceptDialog.new()
-	new_alert.initial_position = Window.WINDOW_INITIAL_POSITION_CENTER_MAIN_WINDOW_SCREEN
-	add_child.call_deferred(new_alert)
-	new_alert.show()
-	new_alert.title = "Error - App will now close"
-	new_alert.size = Vector2i(500, 500)
-	new_alert.always_on_top = true
-	new_alert.popup_window = true
-	var output_string = "\n".join(output_log)
-	new_alert.dialog_text = output_string
-	new_alert.confirmed.connect(func():
-		get_tree().quit()
-	)
-
-
 func _on_python_install_pressed():
-	Globals.install_venv.emit()
+	get_tree().change_scene_to_file("res://Scenes/Python Installation/python_installer.tscn")
 
 func _on_red_pressed():
 	var selected_button = color_buttons[0]
@@ -99,5 +101,6 @@ func _on_purple_pressed():
 func toggle_off_color_buttons(selected_button):
 	for button in color_buttons:
 		if button == selected_button:
+			button.button_pressed = true
 			continue
 		button.button_pressed = false

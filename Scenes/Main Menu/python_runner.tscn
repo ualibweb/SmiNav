@@ -196,6 +196,10 @@ theme_override_colors/font_color = Color(0.0588235, 1, 0.313726, 1)
 theme_override_fonts/font = ExtResource("2_2r588")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_upbyd")
+theme_override_styles/hover = SubResource("StyleBoxFlat_upbyd")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_upbyd")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_upbyd")
+theme_override_styles/focus = SubResource("StyleBoxFlat_upbyd")
 text = "2D"
 
 [node name="3D" type="Button" parent="Options/Inputs/VBoxContainer"]
@@ -205,6 +209,10 @@ theme_override_colors/font_color = Color(0.0588235, 1, 0.313726, 1)
 theme_override_fonts/font = ExtResource("2_2r588")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_upbyd")
+theme_override_styles/hover = SubResource("StyleBoxFlat_upbyd")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_upbyd")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_upbyd")
+theme_override_styles/focus = SubResource("StyleBoxFlat_upbyd")
 text = "3D"
 
 [node name="Python Install" type="Button" parent="."]
