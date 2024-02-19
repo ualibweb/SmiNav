@@ -2,25 +2,22 @@
 
 [node name="Triple Bond" type="Node2D"]
 
-[node name="Highlight" type="Polygon2D" parent="."]
-z_index = -1
-z_as_relative = false
-color = Color(1, 1, 0, 1)
-polygon = PackedVector2Array(0, -4, 0, 4, 1, 4, 1, -4)
-
 [node name="Line2D" type="Line2D" parent="."]
 points = PackedVector2Array(0, 0, 1, 0)
 width = 1.5
-default_color = Color(0, 0, 0, 1)
 
 [node name="Line2D2" type="Line2D" parent="."]
 position = Vector2(0, -2.5)
 points = PackedVector2Array(0, 0, 1, 0)
 width = 1.5
-default_color = Color(0, 0, 0, 1)
 
 [node name="Line2D3" type="Line2D" parent="."]
 position = Vector2(0, 2.5)
 points = PackedVector2Array(0, 0, 1, 0)
 width = 1.5
-default_color = Color(0, 0, 0, 1)
+
+[node name="Highlight" type="Polygon2D" parent="."]
+z_index = -1
+z_as_relative = false
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(0, -5, 0, 5, 1, 5, 1, -5)

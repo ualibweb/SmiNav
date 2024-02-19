@@ -1,7 +1,6 @@
 extends Node2D
 
 @onready var label = $Label
-@onready var sprite_2d = $Sprite2D
 @onready var highlight = $Highlight
 
 # Colors
@@ -26,18 +25,15 @@ func _ready():
 	highlight.hide()
 	Globals.modulate_highlight.connect(_on_modulate_highlight)
 
-func _on_modulate_highlight(highlight_color: Color):
-	highlight.modulate = highlight_color
+func _on_modulate_highlight():
+	highlight.modulate = Color(Globals.selected_color, .5)
 
 func update_atom(atom_type:String):
 	if atom_type == "C":
-		sprite_2d.visible = true
 		label.text = ""
 		return
 	label.text = atom_type
-	sprite_2d.visible = false
 	atom_type = atom_type.capitalize().strip_edges()
-	print(atom_type)
 	# Color text
 	if atom_type in ["H"]:
 		label.add_theme_color_override("font_color", WHITE)

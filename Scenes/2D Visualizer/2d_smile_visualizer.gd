@@ -6,10 +6,14 @@ const TRIPLE_BOND = preload("res://Scenes/Bonds/triple_bond.tscn")
 const ARROMATIC_BOND = preload("res://Scenes/Bonds/arromatic_bond.tscn")
 const BASE_ATOM = preload("res://Scenes/Atoms/base_atom.tscn")
 const SELECTED = preload("res://Scenes/2D Visualizer/selected.tres")
+
 @onready var structure = $Structure
 @onready var h_box_container = $"Control/SMILES Container/ScrollContainer/HBoxContainer"
 @onready var check_box = $Control/Options/CheckBox
 @onready var viewport = get_viewport_rect().size
+
+@onready var back = $Control/Back
+@onready var option_button = $Control/Options/HBoxContainer/OptionButton
 
 var atoms = []
 var bonds = []
@@ -24,9 +28,20 @@ var atom_buttons = []
 var ctrl_pressed = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	add_elements()
-	add_connections()
-	generate_smiles_array()
+	await add_elements()
+	await add_connections()
+	await generate_smiles_array()
+	Globals.modulate_highlight.connect(_on_update_colors)
+	Globals.modulate_highlight.emit()
+
+func _on_update_colors():
+	back.add_theme_color_override("font_color", Globals.selected_color)
+	option_button.add_theme_color_override("font_color", Globals.selected_color)
+	
+	var stylebox = generate_theme_stylebox()
+	for button in atom_buttons:
+		button.add_theme_stylebox_override("pressed", stylebox)
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -54,10 +69,12 @@ func generate_smiles_array():
 	var elements_text = elements_file.get_as_text().strip_edges()
 	var elements = elements_text.split(" ")
 	
+	var stylebox = generate_theme_stylebox()
+	
 	for element in elements:
 		var new_button = Button.new()
 		new_button.add_theme_font_size_override("font_size", 50)
-		new_button.add_theme_stylebox_override("pressed", SELECTED)
+		new_button.add_theme_stylebox_override("pressed", stylebox)
 		new_button.toggle_mode = true
 		new_button.text = str(element)
 		h_box_container.add_child(new_button)
@@ -66,6 +83,11 @@ func generate_smiles_array():
 			new_button.pressed.connect(update_buttons.bind(new_button))
 		else:
 			new_button.disabled = true
+
+func generate_theme_stylebox():
+	var new_stylebox = StyleBoxFlat.new()
+	new_stylebox.bg_color = Globals.selected_color
+	return new_stylebox
 
 func update_buttons(button_node):
 	if ctrl_pressed:
@@ -136,7 +158,7 @@ func add_elements():
 		structure.add_child(atom_node)
 		atom_node.global_position = Vector2(x_position, y_position)
 		atoms.append(atom_node)
-		atom_node.update_atom.call_deferred(symbol)
+		atom_node.update_atom(symbol)
 
 func add_connections():
 	var base_path = ProjectSettings.globalize_path("res://")
@@ -155,10 +177,20 @@ func add_connections():
 		var direction = second_element_position - first_element_position
 		var distance = direction.length()
 		
+		var height = distance
 		var new_connection = get_connection(bond_type)
 		structure.add_child(new_connection)
-		new_connection.global_position = first_element_position + direction * .2
-		new_connection.scale.x = distance - distance * .4
+		print(first_index, " lol ", second_index)
+		print("First Atom:", atoms[first_index].get_node("Label").text)
+		print("Second Atom:", atoms[second_index].get_node("Label").text)
+		if atoms[first_index].get_node("Label") and atoms[first_index].get_node("Label").text != "":
+			new_connection.global_position = first_element_position + direction * .2
+			height -= distance * .2
+		else:
+			new_connection.global_position = first_element_position # + direction * .2
+		if atoms[second_index].get_node("Label") and atoms[second_index].get_node("Label").text != "":
+			height -= distance * .2
+		new_connection.scale.x = height
 		new_connection.look_at(second_element_position)
 		
 		var new_bond = Bond.new(new_connection, atoms[first_index], atoms[second_index])
@@ -182,13 +214,16 @@ func _on_button_pressed():
 
 func _on_option_button_item_selected(index):
 	if index == 0:
-		Globals.modulate_highlight.emit(Globals.RED)
+		Globals.selected_color = Globals.NEON_RED
 	if index == 1:
-		Globals.modulate_highlight.emit(Globals.PURPLE)
+		Globals.selected_color = Globals.NEON_PURPLE
+		
 	if index == 2:
-		Globals.modulate_highlight.emit(Globals.GREEN)
+		Globals.selected_color = Globals.NEON_GREEN
+		
 	if index == 3:
-		Globals.modulate_highlight.emit(Globals.YELLOW)
+		Globals.selected_color = Globals.NEON_YELLOW
+	Globals.modulate_highlight.emit()
 
 
 func _on_check_box_pressed():

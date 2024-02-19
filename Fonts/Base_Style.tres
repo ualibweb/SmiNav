@@ -1,8 +1,0 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://dkou3tlaijmgr"]
-
-[ext_resource type="FontFile" uid="uid://d4bw7aq2ggi5w" path="res://Fonts/cour.ttf" id="1_kej8a"]
-
-[resource]
-Label/colors/font_color = Color(1, 1, 1, 1)
-Label/font_sizes/font_size = 100
-Label/fonts/font = ExtResource("1_kej8a")

@@ -1,24 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://fau0b8o80622"]
+[gd_scene load_steps=3 format=3 uid="uid://fau0b8o80622"]
 
 [ext_resource type="Script" path="res://Scenes/Atoms/base_atom.gd" id="1_ntb6r"]
 [ext_resource type="Texture2D" uid="uid://psq8t3ocnca2" path="res://Scenes/Atoms/highlight.png" id="2_1r31h"]
-[ext_resource type="Texture2D" uid="uid://d24oiyt1w8krr" path="res://Scenes/Atoms/circle.png" id="3_knqmd"]
 
 [node name="Base Atom" type="Node2D"]
 z_index = 1
 z_as_relative = false
 script = ExtResource("1_ntb6r")
-
-[node name="Highlight" type="Sprite2D" parent="."]
-modulate = Color(1, 1, 0, 1)
-z_index = -1
-z_as_relative = false
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("2_1r31h")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("3_knqmd")
 
 [node name="Label" type="Label" parent="."]
 custom_minimum_size = Vector2(14, 14)
@@ -37,3 +25,10 @@ theme_override_font_sizes/font_size = 10
 text = "O"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Highlight" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 0, 1)
+z_index = -1
+z_as_relative = false
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_1r31h")

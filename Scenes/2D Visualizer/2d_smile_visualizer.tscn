@@ -1,6 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://bpubkwguuyxa1"]
+[gd_scene load_steps=4 format=3 uid="uid://bpubkwguuyxa1"]
 
 [ext_resource type="Script" path="res://Scenes/2D Visualizer/2d_smile_visualizer.gd" id="1_8mkie"]
+[ext_resource type="FontFile" uid="uid://d4bw7aq2ggi5w" path="res://Fonts/cour.ttf" id="2_165ru"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8nvn7"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
 
 [node name="2D SMILE Visualizer" type="Node2D"]
 script = ExtResource("1_8mkie")
@@ -28,21 +37,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.819608, 0.847059, 1, 1)
+color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
-
-[node name="Button" type="Button" parent="Control"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -121.0
-offset_top = 15.0
-offset_right = -15.0
-offset_bottom = 58.0
-grow_horizontal = 0
-theme_override_font_sizes/font_size = 25
-text = "Go Back"
 
 [node name="SMILES Container" type="VBoxContainer" parent="Control"]
 layout_mode = 1
@@ -76,21 +72,32 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Options" type="VBoxContainer" parent="Control"]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 15.0
-offset_right = 197.0
-offset_bottom = 108.0
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = -123.0
+offset_right = 212.0
+offset_bottom = -30.0
+grow_vertical = 0
 
-[node name="Label" type="Label" parent="Control/Options"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/Options"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Select Highlight Color"
 
-[node name="OptionButton" type="OptionButton" parent="Control/Options"]
+[node name="Label" type="Label" parent="Control/Options/HBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_165ru")
+text = "Select Color: "
+
+[node name="OptionButton" type="OptionButton" parent="Control/Options/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0588235, 1, 0.192157, 1)
+theme_override_fonts/font = ExtResource("2_165ru")
+flat = true
 item_count = 4
-selected = 3
+selected = 2
 popup/item_0/text = "Red"
 popup/item_0/id = 0
 popup/item_1/text = "Purple"
@@ -102,20 +109,47 @@ popup/item_3/id = 3
 
 [node name="CheckBox" type="CheckBox" parent="Control/Options"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0.494118, 0.494118, 0.494118, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
-theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/h_separation = 10
+theme_override_constants/check_v_offset = 2
+theme_override_fonts/font = ExtResource("2_165ru")
 text = "Highlight Neighbors"
+
+[node name="Back" type="Button" parent="Control"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -160.0
+offset_top = -80.0
+offset_right = -30.0
+offset_bottom = -30.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.0588235, 1, 0.313726, 1)
+theme_override_fonts/font = ExtResource("2_165ru")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_8nvn7")
+theme_override_styles/hover = SubResource("StyleBoxFlat_8nvn7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_8nvn7")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_8nvn7")
+theme_override_styles/focus = SubResource("StyleBoxFlat_8nvn7")
+text = "Go Back"
 
 [node name="Structure" type="Node2D" parent="."]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 metadata/_edit_lock_ = true
 
-[connection signal="pressed" from="Control/Button" to="." method="_on_button_pressed"]
-[connection signal="item_selected" from="Control/Options/OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="item_selected" from="Control/Options/HBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]
 [connection signal="pressed" from="Control/Options/CheckBox" to="." method="_on_check_box_pressed"]
+[connection signal="pressed" from="Control/Back" to="." method="_on_button_pressed"]
