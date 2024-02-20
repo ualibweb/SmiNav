@@ -33,6 +33,20 @@ func _ready():
 	await generate_smiles_array()
 	Globals.modulate_highlight.connect(_on_update_colors)
 	Globals.modulate_highlight.emit()
+	_on_enter_colors()
+
+func _on_enter_colors():
+	var selected_button = null
+	if Globals.selected_color == Globals.NEON_RED:
+		option_button.selected = 0
+	elif  Globals.selected_color == Globals.NEON_PURPLE:
+		option_button.selected = 1
+	elif  Globals.selected_color == Globals.NEON_GREEN:
+		option_button.selected = 2
+	elif  Globals.selected_color == Globals.NEON_YELLOW:
+		option_button.selected = 3
+	else:
+		option_button.selected = 2
 
 func _on_update_colors():
 	back.add_theme_color_override("font_color", Globals.selected_color)

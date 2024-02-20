@@ -16,7 +16,7 @@ func _init(itself, atom1, atom2):
 		highlight_node.hide()
 
 func _on_modulate_highlight():
-	if highlight_node:
+	if highlight_node != null:
 		highlight_node.color = Color(Globals.selected_color, .5)
 	
 func check_if_connected_atoms(atoms: Array):
@@ -30,7 +30,7 @@ func check_if_contains_atoms(atoms: Array):
 	return false
 
 func turn_on_highlight():
-	if highlight_node:
+	if highlight_node != null:
 		highlight_node.show()
 
 
