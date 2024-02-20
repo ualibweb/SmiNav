@@ -7,6 +7,7 @@ var system_ready = false
 @onready var python_install = $"Python Install"
 @onready var title = $Text/Title
 @onready var github = $Github
+@onready var output = $Options/Output
 
 @onready var color_buttons = [$Options/Colors/Red, $Options/Colors/Yellow, $Options/Colors/Green, $Options/Colors/Purple]
 # Called when the node enters the scene tree for the first time.
@@ -15,6 +16,7 @@ func _ready():
 		_3d.disabled = true
 		_2d.disabled = true
 		python_install.visible = true
+		output.text = "No python virtual environment\nfound"
 	Globals.modulate_highlight.connect(_on_update_colors)
 	Globals.modulate_highlight.emit()
 	_on_enter_colors()
@@ -51,23 +53,29 @@ func _process(delta):
 		_3d.disabled = false
 		system_ready = true
 		python_install.visible = false
+		output.text = ""
 
 func _on_two_d_pressed():
+	if smiles_input.text == "":
+		output.text = "Enter a smiles"
+		return
 	if Globals.venv_exists:
 		_2d.disabled = true
 		await Globals.run_python_script("rdkit_script.py", [smiles_input.text])
-		print("After running")
 		get_tree().change_scene_to_file("res://Scenes/2D Visualizer/2d_smile_visualizer.tscn")
 	else:
-		print("Wait, Venv is not ready yet")
+		output.text = "Wait, Venv is not ready yet"
 
 func _on_three_d_pressed():
+	if smiles_input.text == "":
+		output.text = "Enter a smiles"
+		return
 	if Globals.venv_exists:
 		_3d.disabled = false
 		await Globals.run_python_script("rdkit_script.py", [smiles_input.text])
 		get_tree().change_scene_to_file("res://Scenes/3D Visualizer/3d_smile_visualizer.tscn")
 	else:
-		print("Wait, Venv is not ready yet")
+		output.text = "Wait, Venv is not ready yet"
 
 func _on_python_install_pressed():
 	get_tree().change_scene_to_file("res://Scenes/Python Installation/python_installer.tscn")
