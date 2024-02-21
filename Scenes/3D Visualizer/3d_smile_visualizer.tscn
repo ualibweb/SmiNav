@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dohtrelox64e1"]
+[gd_scene load_steps=9 format=3 uid="uid://dohtrelox64e1"]
 
 [ext_resource type="Script" path="res://Scenes/3D Visualizer/3d_smile_visualizer.gd" id="1_t3wey"]
+[ext_resource type="FontFile" uid="uid://d4bw7aq2ggi5w" path="res://Fonts/cour.ttf" id="2_73ak5"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_kwslx"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -14,6 +15,22 @@ background_mode = 2
 sky = SubResource("Sky_4b45j")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6ewh1"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_bfiiu"]
+material = SubResource("StandardMaterial3D_6ewh1")
+size = Vector2(100, 100)
+orientation = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d23yw"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
 
 [node name="3D SMILE Visualizer" type="Node3D"]
 script = ExtResource("1_t3wey")
@@ -30,14 +47,121 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
 
 [node name="Structure" type="Node3D" parent="."]
 
-[node name="Button" type="Button" parent="."]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -8.0
-offset_bottom = 8.0
-grow_horizontal = 0
-theme_override_font_sizes/font_size = 25
-text = "Go Back"
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -15.1236)
+mesh = SubResource("PlaneMesh_bfiiu")
 
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(1280, 720)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="SMILES Container" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -93.5
+offset_right = 93.5
+offset_bottom = 117.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/SMILES Container"]
+custom_minimum_size = Vector2(700, 90)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/SMILES Container/ScrollContainer"]
+custom_minimum_size = Vector2(700, 90)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+alignment = 1
+
+[node name="Label" type="Label" parent="Control/SMILES Container"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Hold Ctrl To Multi-Select"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Options" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = -123.0
+offset_right = 212.0
+offset_bottom = -30.0
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/Options"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/Options/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_73ak5")
+text = "Select Color: "
+
+[node name="OptionButton" type="OptionButton" parent="Control/Options/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0588235, 1, 0.192157, 1)
+theme_override_fonts/font = ExtResource("2_73ak5")
+flat = true
+item_count = 4
+selected = 2
+popup/item_0/text = "Red"
+popup/item_0/id = 0
+popup/item_1/text = "Purple"
+popup/item_1/id = 1
+popup/item_2/text = "Green"
+popup/item_2/id = 2
+popup/item_3/text = "Yellow"
+popup/item_3/id = 3
+
+[node name="CheckBox" type="CheckBox" parent="Control/Options"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.494118, 0.494118, 0.494118, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/h_separation = 10
+theme_override_constants/check_v_offset = 2
+theme_override_fonts/font = ExtResource("2_73ak5")
+text = "Highlight Neighbors"
+
+[node name="Back" type="Button" parent="Control"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -160.0
+offset_top = -80.0
+offset_right = -30.0
+offset_bottom = -30.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.0588235, 1, 0.313726, 1)
+theme_override_fonts/font = ExtResource("2_73ak5")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_d23yw")
+theme_override_styles/hover = SubResource("StyleBoxFlat_d23yw")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_d23yw")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_d23yw")
+theme_override_styles/focus = SubResource("StyleBoxFlat_d23yw")
+text = "Go Back"

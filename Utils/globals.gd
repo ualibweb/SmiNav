@@ -13,6 +13,7 @@ const PURPLE = Color8(160, 32, 240)
 const YELLOW = Color8(255,255,0)
 
 signal modulate_highlight(color_code: Color)
+signal camera_position(global_pos: Vector3)
 
 var selected_color = NEON_GREEN
 

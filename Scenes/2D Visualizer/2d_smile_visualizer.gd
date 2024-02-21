@@ -5,7 +5,6 @@ const SINGLE_BOND = preload("res://Scenes/Bonds/single_bond.tscn")
 const TRIPLE_BOND = preload("res://Scenes/Bonds/triple_bond.tscn")
 const ARROMATIC_BOND = preload("res://Scenes/Bonds/arromatic_bond.tscn")
 const BASE_ATOM = preload("res://Scenes/Atoms/base_atom.tscn")
-const SELECTED = preload("res://Scenes/2D Visualizer/selected.tres")
 
 @onready var structure = $Structure
 @onready var h_box_container = $"Control/SMILES Container/ScrollContainer/HBoxContainer"

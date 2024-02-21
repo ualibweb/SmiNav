@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://bohb6gjvdnu4y"]
+
+[ext_resource type="Script" path="res://Scenes/Atoms/base_atom_3d.gd" id="1_snnk8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qgpmk"]
+transparency = 1
+blend_mode = 3
+albedo_color = Color(1, 1, 0, 0.290196)
+
+[node name="Base Atom 3D" type="CSGSphere3D"]
+rings = 12
+script = ExtResource("1_snnk8")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -0.831503)
+operation = 2
+flip_faces = true
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(-1, 0, 1.60936e-07, 0, 1, 0, -1.60936e-07, 0, -1, 0, 0, -0.5)
+pixel_size = 0.01
+text = "CA"
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
+visible = false
+transparency = 0.85
+radius = 0.6
+material = SubResource("StandardMaterial3D_qgpmk")
