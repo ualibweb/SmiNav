@@ -3,10 +3,13 @@ extends Node3D
 @onready var structure = $Structure
 @onready var h_box_container = $"Control/SMILES Container/ScrollContainer/HBoxContainer"
 @onready var check_box = $Control/Options/CheckBox
-
 @onready var back = $Control/Back
 @onready var option_button = $Control/Options/HBoxContainer/OptionButton
 const BASE_ATOM_3D = preload("res://Scenes/Atoms/base_atom_3d.tscn")
+const SINGLE_BOND_3D = preload("res://Scenes/Bonds/single_bond_3d.tscn")
+
+
+
 var atoms = []
 var bonds = []
 
@@ -75,9 +78,7 @@ func generate_smiles_array():
 	var elements_file = FileAccess.open(base_path + "smiles.txt",FileAccess.READ)
 	var elements_text = elements_file.get_as_text().strip_edges()
 	var elements = elements_text.split(" ")
-	
 	var stylebox = generate_theme_stylebox()
-	
 	for element in elements:
 		var new_button = Button.new()
 		new_button.add_theme_font_size_override("font_size", 50)
@@ -164,10 +165,13 @@ func add_elements():
 		var z_position = float(split_data[4]) * 1
 		var atom_node = BASE_ATOM_3D.instantiate()
 		structure.add_child(atom_node)
+		if x_position == 0 and y_position == 0 and z_position == 0:
+			x_position = 5
+			y_position = 5
+			z_position = 5
 		atom_node.global_position = Vector3(x_position, y_position, z_position)
-		#atom_node.update_atom(symbol)
+		atom_node.update_atom(symbol)
 		atoms.append(atom_node)
-	return
 
 func add_connections():
 	var base_path = ProjectSettings.globalize_path("res://")
@@ -183,10 +187,8 @@ func add_connections():
 		var first_element_position = atoms[first_index].global_position
 		var second_element_position = atoms[second_index].global_position
 		
-		var new_connection = CSGCylinder3D.new()
-		#var new_connection = get_connection(bond_type)
+		var new_connection = get_connection(bond_type)
 		structure.add_child(new_connection)
-		new_connection.radius = .1
 		
 		var direction = second_element_position - first_element_position
 		var distance = direction.length()
@@ -206,23 +208,22 @@ func add_connections():
 			#new_connection.global_position = first_element_position # + direction * .2
 		#if atoms[second_index].get_node("Label") and atoms[second_index].get_node("Label").text != "":
 			#height -= distance * .2
-		new_connection.height = distance
+		new_connection.scale.y = distance
 		
-		#var new_bond = Bond.new(new_connection, atoms[first_index], atoms[second_index])
-		#bonds.append(new_bond)
+		var new_bond = Bond_3D.new(new_connection, atoms[first_index], atoms[second_index])
+		bonds.append(new_bond)
 
 
-#func get_connection(bond_type):
-	#print(bond_type)
-	#if bond_type == "1.0":
-		#return SINGLE_BOND.instantiate()
+func get_connection(bond_type):
+	if bond_type == "1.0":
+		return SINGLE_BOND_3D.instantiate()
 	#if bond_type == "2.0":
 		#return DOUBLE_BOND.instantiate()
 	#if bond_type == "3.0":
 		#return TRIPLE_BOND.instantiate()
 	#if bond_type == "1.5":
 		#return ARROMATIC_BOND.instantiate()
-	#return SINGLE_BOND.instantiate()
+	return SINGLE_BOND_3D.instantiate()
 
 func _on_button_pressed():
 	get_tree().change_scene_to_file("res://Scenes/Main Menu/python_runner.tscn")

@@ -1,9 +1,9 @@
 extends Node
-class_name Bond
+class_name Bond_3D
 
-var bond : Node2D = null
+var bond : Node3D = null
 var connected_atoms : Array = []
-var highlight_node : Node2D = null
+var highlight_node : Node3D = null
 
 
 func _init(itself, atom1, atom2):
@@ -12,12 +12,17 @@ func _init(itself, atom1, atom2):
 	connected_atoms.append(atom2)
 	Globals.modulate_highlight.connect(_on_modulate_highlight)
 	highlight_node = bond.get_node("Highlight")
+	for child in highlight_node.get_children():
+		child.material = child.material.duplicate()
+		child.transparency = .8
 	if highlight_node:
 		highlight_node.hide()
 
 func _on_modulate_highlight():
 	if highlight_node != null:
-		highlight_node.color = Color(Globals.selected_color, .5)
+		for child in highlight_node.get_children():
+			child.material.albedo_color = Globals.selected_color
+			child.transparency = .8
 	
 func check_if_connected_atoms(atoms: Array):
 	if connected_atoms[0] in atoms and connected_atoms[1] in atoms:

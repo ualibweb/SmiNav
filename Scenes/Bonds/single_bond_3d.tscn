@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmnaocdp6enqt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vy5hj"]
+albedo_color = Color(1, 1, 0, 1)
+
+[node name="Single Bond 3D" type="Node3D"]
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+radius = 0.1
+height = 1.0
+
+[node name="Highlight" type="Node3D" parent="."]
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Highlight"]
+transparency = 0.8
+radius = 0.2
+height = 1.0
+material = SubResource("StandardMaterial3D_vy5hj")

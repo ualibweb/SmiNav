@@ -1,28 +1,23 @@
-[gd_scene load_steps=3 format=3 uid="uid://bohb6gjvdnu4y"]
+[gd_scene load_steps=5 format=3 uid="uid://bohb6gjvdnu4y"]
 
 [ext_resource type="Script" path="res://Scenes/Atoms/base_atom_3d.gd" id="1_snnk8"]
+[ext_resource type="Texture2D" uid="uid://psq8t3ocnca2" path="res://Scenes/Atoms/highlight.png" id="2_33pcd"]
+[ext_resource type="FontFile" uid="uid://d4bw7aq2ggi5w" path="res://Fonts/cour.ttf" id="2_tl2cg"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qgpmk"]
-transparency = 1
-blend_mode = 3
-albedo_color = Color(1, 1, 0, 0.290196)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kxjlh"]
 
 [node name="Base Atom 3D" type="CSGSphere3D"]
 rings = 12
+material = SubResource("StandardMaterial3D_kxjlh")
 script = ExtResource("1_snnk8")
-
-[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -0.831503)
-operation = 2
-flip_faces = true
 
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(-1, 0, 1.60936e-07, 0, 1, 0, -1.60936e-07, 0, -1, 0, 0, -0.5)
 pixel_size = 0.01
 text = "CA"
+font = ExtResource("2_tl2cg")
 
-[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
-visible = false
-transparency = 0.85
-radius = 0.6
-material = SubResource("StandardMaterial3D_qgpmk")
+[node name="Highlight" type="Sprite3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0.5)
+modulate = Color(1, 1, 1, 0.447059)
+texture = ExtResource("2_33pcd")

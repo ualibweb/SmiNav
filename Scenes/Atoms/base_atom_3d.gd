@@ -1,8 +1,7 @@
 extends CSGSphere3D
 
 @onready var label = $Label3D
-
-
+@onready var highlight = $Highlight
 
 # Colors
 const WHITE = Color8(255,255,255)
@@ -26,57 +25,75 @@ const BASE_COLOR = Color(Globals.NEON_GREEN, .5)
 var highlight_color = Color(Globals.NEON_GREEN, .5)
 
 func _ready():
+	highlight.hide()
 	Globals.modulate_highlight.connect(_on_modulate_highlight)
 	Globals.camera_position.connect(_on_camera_position)
+	material = material.duplicate()
 
 func _on_modulate_highlight():
-	return
-	#modulate = Color(Globals.selected_color, .5)
+	highlight.modulate = Color(Globals.selected_color, .1)
 
 func update_atom(atom_type:String):
+	print(atom_type)
+	var atom_material: Material = get_material()
 	if atom_type == "C":
 		label.text = ""
+		atom_material.albedo_color = WHITE
 		return
 	label.text = atom_type
 	atom_type = atom_type.capitalize().strip_edges()
 	# Color text
 	if atom_type in ["H"]:
-		label.add_theme_color_override("font_color", WHITE)
+		label.modulate = WHITE
+		atom_material.albedo_color = WHITE
 	elif atom_type in ["N"]:
-		label.add_theme_color_override("font_color", BLUE)
+		label.modulate = BLUE
+		atom_material.albedo_color = BLUE
 	elif atom_type in ["O"]:
-		label.add_theme_color_override("font_color", RED)
+		label.modulate = RED
+		atom_material.albedo_color = RED
 	elif atom_type in ["F", "Cl"]:
-		label.add_theme_color_override("font_color", GREEN)
+		label.modulate = GREEN
+		atom_material.albedo_color = GREEN
 	elif atom_type in ["Br"]:
-		label.add_theme_color_override("font_color", DARK_RED)
+		label.modulate = DARK_RED
+		atom_material.albedo_color = DARK_RED
 	elif atom_type in ["I"]:
-		label.add_theme_color_override("font_color", DARK_VIOLET)
+		label.modulate = DARK_VIOLET
+		atom_material.albedo_color = DARK_VIOLET
 	elif atom_type in ["He", "Ne", "Ar", "Kr", "Xe"]:
-		label.add_theme_color_override("font_color", CYAN)
+		label.modulate = CYAN
+		atom_material.albedo_color = CYAN
 	elif atom_type in ["P"]:
-		label.add_theme_color_override("font_color", ORANGE)
+		label.modulate = ORANGE
+		atom_material.albedo_color = ORANGE
 	elif atom_type in ["S"]:
-		label.add_theme_color_override("font_color", YELLOW)
+		label.modulate = YELLOW
+		atom_material.albedo_color = YELLOW
 	elif atom_type in "B":
-		label.add_theme_color_override("font_color", BEIGE)
+		label.modulate = BEIGE
+		atom_material.albedo_color = BEIGE
 	elif atom_type in ["Li", "Na", "K", "Rb", "Cs", "Fr"]:
-		label.add_theme_color_override("font_color", VIOLET)
+		label.modulate = VIOLET
+		atom_material.albedo_color = VIOLET
 	elif atom_type in ["Be", "Mg", "Ca", "Sr", "Ba", "Ra"]:
-		label.add_theme_color_override("font_color", DARK_GREEN)
+		label.modulate = DARK_GREEN
+		atom_material.albedo_color = DARK_GREEN
 	elif atom_type in ["Ti"]:
-		label.add_theme_color_override("font_color", GRAY)
+		label.modulate = GRAY
+		atom_material.albedo_color = GRAY
 	elif atom_type in ["Fe"]:
-		label.add_theme_color_override("font_color", DARK_ORANGE)
+		label.modulate = DARK_ORANGE
+		atom_material.albedo_color = DARK_ORANGE
 	else:
-		label.add_theme_color_override("font_color", PINK)
-	print(label.get_theme_color("font_color"))
+		label.modulate = PINK
+		atom_material.albedo_color = PINK
 
 func turn_on_highlight():
-	return
+	highlight.show()
 
 func turn_off_highlight():
-	return
+	highlight.hide()
 
 func _on_camera_position(camera_pos: Vector3):
 	look_at(camera_pos)
