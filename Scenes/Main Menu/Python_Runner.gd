@@ -112,3 +112,7 @@ func toggle_off_color_buttons(selected_button):
 			button.button_pressed = true
 			continue
 		button.button_pressed = false
+
+
+func _on_exit_pressed():
+	get_tree().quit()

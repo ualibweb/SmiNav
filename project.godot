@@ -10,10 +10,12 @@ config_version=5
 
 [application]
 
-config/name="Smidots"
+config/name="Smidot"
+config/version="1.0"
 run/main_scene="res://Scenes/Main Menu/python_runner.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
-config/icon="res://icon.svg"
+boot_splash/image="res://smidot_logo.png"
+config/icon="res://smidot_logo.png"
 
 [autoload]
 
@@ -23,6 +25,7 @@ Globals="*res://Utils/globals.gd"
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
+window/size/mode=2
 window/stretch/mode="canvas_items"
 
 [input]

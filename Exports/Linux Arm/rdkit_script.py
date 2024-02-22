@@ -17,6 +17,7 @@ def smi_tokenizer(smi):
 
 def smiles_to_files(smiles, elements_filename='elements.txt', connections_filename='connections.txt', alt_elements_filename='two_d_elements.txt'):
     mol = Chem.MolFromSmiles(smiles)
+    mol = Chem.rdmolops.AddHs(mol, explicitOnly = True)
     if not mol:
         raise ValueError("Invalid SMILES string")
     
@@ -35,9 +36,17 @@ def smiles_to_files(smiles, elements_filename='elements.txt', connections_filena
     
     # Output elements and their positions in 3d space
     with open(elements_filename, 'w') as elements_file:
-        for atom in mol.GetAtoms():
-            position = mol.GetConformer().GetAtomPosition(atom.GetIdx())
-            elements_file.write(f"{atom.GetSymbol()} {atom.GetIdx()} {position.x} {position.y} {position.z}\n")
+        # CCC(=O)N.CC1=CC=CC=N1.C#C  
+        atom_index = 0
+        # get the number of separate fragments
+        num_frags = len(Chem.GetMolFrags(mol))
+        # loop through the different mol fragments and offset the atoms by a distance of its frag index
+        for idx, frag in enumerate(Chem.GetMolFrags(mol, asMols=True)):
+            for atom in frag.GetAtoms():
+                position = frag.GetConformer().GetAtomPosition(atom.GetIdx())
+                elements_file.write(f"{atom.GetSymbol()} {atom_index} {position.x} {position.y} {position.z + 5 * (idx - (num_frags-1)*.5)}\n")
+                atom_index += 1
+        
     
     # Output connections
     with open(connections_filename, 'w') as connections_file:
