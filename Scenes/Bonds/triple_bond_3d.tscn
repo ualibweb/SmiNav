@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://v1xihdq0ypp7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ke0st"]
+albedo_color = Color(1, 1, 0, 1)
+
+[node name="Triple Bond 3D" type="Node3D"]
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0, 0)
+radius = 0.1
+height = 1.0
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="."]
+radius = 0.1
+height = 1.0
+
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0, 0)
+radius = 0.1
+height = 1.0
+
+[node name="Highlight" type="Node3D" parent="."]
+
+[node name="Highlight" type="CSGCylinder3D" parent="Highlight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0, 0)
+transparency = 0.8
+radius = 0.2
+height = 1.0
+material = SubResource("StandardMaterial3D_ke0st")
+
+[node name="Highlight2" type="CSGCylinder3D" parent="Highlight"]
+transparency = 0.8
+radius = 0.2
+height = 1.0
+material = SubResource("StandardMaterial3D_ke0st")
+
+[node name="Highlight3" type="CSGCylinder3D" parent="Highlight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0, 0)
+transparency = 0.8
+radius = 0.2
+height = 1.0
+material = SubResource("StandardMaterial3D_ke0st")

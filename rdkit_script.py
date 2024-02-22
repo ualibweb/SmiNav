@@ -36,7 +36,7 @@ def smiles_to_files(smiles, elements_filename='elements.txt', connections_filena
     
     # Output elements and their positions in 3d space
     with open(elements_filename, 'w') as elements_file:
-        # C1=CC(=CC=C1COC(CN2C=CN=C2)C3=C(C=C(C=C3)Cl)Cl)Cl.[N+](=O)(O)[O-]
+        # CCC(=O)N.CC1=CC=CC=N1.C#C  
         atom_index = 0
         # get the number of separate fragments
         num_frags = len(Chem.GetMolFrags(mol))

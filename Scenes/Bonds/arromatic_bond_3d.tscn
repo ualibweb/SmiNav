@@ -1,0 +1,80 @@
+[gd_scene load_steps=2 format=3 uid="uid://bs6jwt5iefgeh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_skd1d"]
+albedo_color = Color(1, 1, 0, 1)
+
+[node name="Arromatic Bond 3D" type="Node3D"]
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0, 0)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.35, 0)
+radius = 0.1
+height = 0.05
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0)
+radius = 0.1
+height = 0.05
+
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+radius = 0.1
+height = 0.05
+
+[node name="CSGCylinder3D4" type="CSGCylinder3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+radius = 0.1
+height = 0.05
+
+[node name="CSGCylinder3D5" type="CSGCylinder3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+radius = 0.1
+height = 0.05
+
+[node name="CSGCylinder3D6" type="CSGCylinder3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.45, 0)
+radius = 0.1
+height = 0.05
+
+[node name="CSGCylinder3D7" type="CSGCylinder3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+radius = 0.1
+height = 0.05
+
+[node name="CSGCylinder3D8" type="CSGCylinder3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+radius = 0.1
+height = 0.05
+
+[node name="CSGCylinder3D9" type="CSGCylinder3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+radius = 0.1
+height = 0.05
+
+[node name="CSGCylinder3D10" type="CSGCylinder3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+radius = 0.1
+height = 0.05
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0, 0)
+radius = 0.1
+height = 1.0
+
+[node name="Highlight" type="Node3D" parent="."]
+
+[node name="Highlight" type="CSGCylinder3D" parent="Highlight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0, 0)
+transparency = 0.8
+radius = 0.2
+height = 1.0
+material = SubResource("StandardMaterial3D_skd1d")
+
+[node name="Highlight2" type="CSGCylinder3D" parent="Highlight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0, 0)
+transparency = 0.8
+radius = 0.2
+height = 1.0
+material = SubResource("StandardMaterial3D_skd1d")

@@ -99,7 +99,7 @@ func generate_smiles_array():
 
 func generate_theme_stylebox():
 	var new_stylebox = StyleBoxFlat.new()
-	new_stylebox.bg_color = Globals.selected_color
+	new_stylebox.bg_color = Color(Globals.selected_color, .5)
 	return new_stylebox
 
 func update_buttons(button_node):

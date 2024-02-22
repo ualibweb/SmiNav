@@ -7,9 +7,9 @@ extends Node3D
 @onready var option_button = $Control/Options/HBoxContainer/OptionButton
 const BASE_ATOM_3D = preload("res://Scenes/Atoms/base_atom_3d.tscn")
 const SINGLE_BOND_3D = preload("res://Scenes/Bonds/single_bond_3d.tscn")
-
-
-
+const DOUBLE_BOND_3D = preload("res://Scenes/Bonds/double_bond_3d.tscn")
+const TRIPLE_BOND_3D = preload("res://Scenes/Bonds/triple_bond_3d.tscn")
+const ARROMATIC_BOND_3D = preload("res://Scenes/Bonds/arromatic_bond_3d.tscn")
 var atoms = []
 var bonds = []
 
@@ -94,7 +94,7 @@ func generate_smiles_array():
 
 func generate_theme_stylebox():
 	var new_stylebox = StyleBoxFlat.new()
-	new_stylebox.bg_color = Globals.selected_color
+	new_stylebox.bg_color = Color(Globals.selected_color, .5)
 	return new_stylebox
 
 func update_buttons(button_node):
@@ -217,12 +217,12 @@ func add_connections():
 func get_connection(bond_type):
 	if bond_type == "1.0":
 		return SINGLE_BOND_3D.instantiate()
-	#if bond_type == "2.0":
-		#return DOUBLE_BOND.instantiate()
-	#if bond_type == "3.0":
-		#return TRIPLE_BOND.instantiate()
-	#if bond_type == "1.5":
-		#return ARROMATIC_BOND.instantiate()
+	if bond_type == "2.0":
+		return DOUBLE_BOND_3D.instantiate()
+	if bond_type == "3.0":
+		return TRIPLE_BOND_3D.instantiate()
+	if bond_type == "1.5":
+		return ARROMATIC_BOND_3D.instantiate()
 	return SINGLE_BOND_3D.instantiate()
 
 func _on_button_pressed():
