@@ -73,6 +73,9 @@ func _on_three_d_pressed():
 	if Globals.venv_exists:
 		_3d.disabled = false
 		await Globals.run_python_script("rdkit_script.py", [smiles_input.text])
+		# Check file for elements
+		var base_path = ProjectSettings.globalize_path("res://")
+		var elements_file = FileAccess.open(base_path + "elements.txt",FileAccess.READ)
 		get_tree().change_scene_to_file("res://Scenes/3D Visualizer/3d_smile_visualizer.tscn")
 	else:
 		output.text = "Wait, Venv is not ready yet"

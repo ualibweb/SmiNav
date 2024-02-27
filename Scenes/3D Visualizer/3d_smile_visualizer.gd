@@ -10,9 +10,9 @@ const SINGLE_BOND_3D = preload("res://Scenes/Bonds/single_bond_3d.tscn")
 const DOUBLE_BOND_3D = preload("res://Scenes/Bonds/double_bond_3d.tscn")
 const TRIPLE_BOND_3D = preload("res://Scenes/Bonds/triple_bond_3d.tscn")
 const ARROMATIC_BOND_3D = preload("res://Scenes/Bonds/arromatic_bond_3d.tscn")
+const COUR = preload("res://Fonts/cour.ttf")
 var atoms = []
 var bonds = []
-
 var highlighted_atoms = []
 var highlighted_bonds = []
 var highlighted_connected_atoms = []
@@ -49,6 +49,8 @@ func _on_update_colors():
 	
 	var stylebox = generate_theme_stylebox()
 	for button in atom_buttons:
+		if button is String:
+			continue
 		button.add_theme_stylebox_override("pressed", stylebox)
 	
 
@@ -79,16 +81,23 @@ func generate_smiles_array():
 	var elements_text = elements_file.get_as_text().strip_edges()
 	var elements = elements_text.split(" ")
 	var stylebox = generate_theme_stylebox()
+	var element_idx = 0
 	for element in elements:
 		var new_button = Button.new()
 		new_button.add_theme_font_size_override("font_size", 50)
 		new_button.add_theme_stylebox_override("pressed", stylebox)
+		new_button.add_theme_font_override("font", COUR)
 		new_button.toggle_mode = true
 		new_button.text = str(element)
 		h_box_container.add_child(new_button)
 		if contains_alpha_char(element):
-			atom_buttons.append(new_button)
-			new_button.pressed.connect(update_buttons.bind(new_button))
+			if atoms[element_idx] is String:
+				new_button.disabled = true
+				atom_buttons.append("")
+			else:
+				atom_buttons.append(new_button)
+				new_button.pressed.connect(update_buttons.bind(new_button))
+			element_idx += 1
 		else:
 			new_button.disabled = true
 
@@ -102,6 +111,8 @@ func update_buttons(button_node):
 		update_highlights()
 		return
 	for button in atom_buttons:
+		if button is String:
+			continue
 		if button == button_node:
 			continue
 		button.button_pressed = false
@@ -115,6 +126,8 @@ func update_highlights():
 	highlighted_atoms.clear()
 	highlighted_bonds.clear()
 	for idx in atom_buttons.size():
+		if atom_buttons[idx] is String:
+			continue
 		if atom_buttons[idx].button_pressed == true:
 			var current_atom = atoms[idx]
 			current_atom.turn_on_highlight.call_deferred()
@@ -163,12 +176,11 @@ func add_elements():
 		var x_position = float(split_data[2]) * 1
 		var y_position = float(split_data[3]) * 1
 		var z_position = float(split_data[4]) * 1
+		if x_position == -1 and y_position == -1 and z_position == -1:
+			atoms.append("")
+			continue
 		var atom_node = BASE_ATOM_3D.instantiate()
 		structure.add_child(atom_node)
-		if x_position == 0 and y_position == 0 and z_position == 0:
-			x_position = 5
-			y_position = 5
-			z_position = 5
 		atom_node.global_position = Vector3(x_position, y_position, z_position)
 		atom_node.update_atom(symbol)
 		atoms.append(atom_node)

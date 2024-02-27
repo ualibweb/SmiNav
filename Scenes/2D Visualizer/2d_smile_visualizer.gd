@@ -13,6 +13,7 @@ const BASE_ATOM = preload("res://Scenes/Atoms/base_atom.tscn")
 
 @onready var back = $Control/Back
 @onready var option_button = $Control/Options/HBoxContainer/OptionButton
+const COUR = preload("res://Fonts/cour.ttf")
 
 var atoms = []
 var bonds = []
@@ -90,6 +91,7 @@ func generate_smiles_array():
 		new_button.add_theme_stylebox_override("pressed", stylebox)
 		new_button.toggle_mode = true
 		new_button.text = str(element)
+		new_button.add_theme_font_override("font", COUR)
 		h_box_container.add_child(new_button)
 		if contains_alpha_char(element):
 			atom_buttons.append(new_button)
@@ -175,7 +177,7 @@ func add_elements():
 
 func add_connections():
 	var base_path = ProjectSettings.globalize_path("res://")
-	var elements_file = FileAccess.open(base_path + "connections.txt",FileAccess.READ)
+	var elements_file = FileAccess.open(base_path + "two_d_connections.txt",FileAccess.READ)
 	var elements = elements_file.get_as_text().split("\n")
 	for element in elements:
 		if element.length() == 0:

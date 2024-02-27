@@ -2,3 +2,4 @@
 .godot/
 .venv/
 *.txt
+Exports/
