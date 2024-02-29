@@ -1,6 +1,7 @@
 # smidot
-SMILES visualization with Godot
+### SMILES visualization with Godot
 
+smidot is a GUI visualizer for parts of the SMILES syntax. It was inspired by Andrew Dalke's [smiview](https://hg.sr.ht/~dalke/smiview). It uses the [RDKit](https://www.rdkit.org/) library in python to parse the SMILES string and return data that is then used to create a 2D or 3D visualization of the molecule. The visualization is done using the Godot game engine.
 
 ## 2D
 
