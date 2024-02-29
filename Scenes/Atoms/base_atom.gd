@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var label = $Label
+@onready var label_2 = $Label/Label2
 @onready var highlight = $Highlight
 
 # Colors
@@ -28,7 +29,8 @@ func _ready():
 func _on_modulate_highlight():
 	highlight.modulate = Color(Globals.selected_color, .5)
 
-func update_atom(atom_type:String):
+func update_atom(atom_type:String, charge: int):
+	label_2.visible = false
 	if atom_type == "C":
 		label.text = ""
 		return
@@ -65,7 +67,15 @@ func update_atom(atom_type:String):
 		label.add_theme_color_override("font_color", DARK_ORANGE)
 	else:
 		label.add_theme_color_override("font_color", PINK)
-	print(label.get_theme_color("font_color"))
+	label_2.visible = true
+	if charge == 0:
+		label_2.visible = false
+	elif charge == -1:
+		label_2.text = "-"
+	elif charge == 1:
+		label_2.text = "+"
+	else:
+		label_2.text = str(charge)
 
 func turn_on_highlight():
 	highlight.show()

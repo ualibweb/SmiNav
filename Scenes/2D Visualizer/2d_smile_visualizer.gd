@@ -8,7 +8,9 @@ const BASE_ATOM = preload("res://Scenes/Atoms/base_atom.tscn")
 
 @onready var structure = $Structure
 @onready var h_box_container = $"Control/SMILES Container/ScrollContainer/HBoxContainer"
-@onready var check_box = $Control/Options/CheckBox
+@onready var neighbors_checkbox = $Control/Options/Neighbors
+@onready var rings_checkbox = $Control/Options/Rings
+
 @onready var viewport = get_viewport_rect().size
 
 @onready var back = $Control/Back
@@ -17,6 +19,7 @@ const COUR = preload("res://Fonts/cour.ttf")
 
 var atoms = []
 var bonds = []
+var rings = []
 
 var highlighted_atoms = []
 var highlighted_bonds = []
@@ -30,6 +33,7 @@ var ctrl_pressed = false
 func _ready():
 	await add_elements()
 	await add_connections()
+	await add_rings()
 	await generate_smiles_array()
 	Globals.modulate_highlight.connect(_on_update_colors)
 	Globals.modulate_highlight.emit()
@@ -131,8 +135,10 @@ func update_highlights():
 			bond.turn_on_highlight.call_deferred()
 			highlighted_bonds.append(bond)
 	clear_connected_highlights()
-	if check_box.button_pressed:
+	if neighbors_checkbox.button_pressed:
 		highlight_connected()
+	if rings_checkbox.button_pressed:
+		highlight_rings()
 
 func highlight_connected():
 	highlighted_connected_atoms.clear()
@@ -144,6 +150,22 @@ func highlight_connected():
 			for atom in bond.connected_atoms:
 				atom.turn_on_highlight.call_deferred()
 				highlighted_connected_atoms.append(atom)
+
+func highlight_rings():
+	highlighted_connected_atoms.clear()
+	highlighted_connected_bonds.clear()
+	for atom in highlighted_atoms:
+		var atom_idx = atoms.find(atom)
+		for ring in rings:
+			if str(atom_idx) in ring:
+				# Highlight all atoms in ring
+				for atom_index in ring:
+					atoms[int(atom_index)].turn_on_highlight.call_deferred()
+					highlighted_connected_atoms.append(atoms[int(atom_index)])
+	for bond in bonds:
+		if bond.check_if_connected_atoms(highlighted_connected_atoms):
+			bond.turn_on_highlight.call_deferred()
+			highlighted_connected_bonds.append(bond)
 
 func clear_connected_highlights():
 	for atom in highlighted_connected_atoms:
@@ -169,11 +191,12 @@ func add_elements():
 		var index = split_data[1]
 		var x_position = float(split_data[2]) - viewport.x * .5
 		var y_position = float(split_data[3]) - viewport.y * .5
+		var charge = int(split_data[4])
 		var atom_node = BASE_ATOM.instantiate()
 		structure.add_child(atom_node)
 		atom_node.global_position = Vector2(x_position, y_position)
+		atom_node.update_atom(symbol, charge)
 		atoms.append(atom_node)
-		atom_node.update_atom(symbol)
 
 func add_connections():
 	var base_path = ProjectSettings.globalize_path("res://")
@@ -224,6 +247,14 @@ func get_connection(bond_type):
 		return ARROMATIC_BOND.instantiate()
 	return SINGLE_BOND.instantiate()
 
+func add_rings():
+	var base_path = ProjectSettings.globalize_path("res://")
+	var rings_file = FileAccess.open(base_path + "rings.txt",FileAccess.READ)
+	var rings_data = rings_file.get_as_text().split("\n")
+	for ring in rings_data:
+		var elements = ring.strip_edges().split(" ")
+		rings.append(elements)
+
 func _on_button_pressed():
 	get_tree().change_scene_to_file("res://Scenes/Main Menu/python_runner.tscn")
 
@@ -241,7 +272,15 @@ func _on_option_button_item_selected(index):
 	Globals.modulate_highlight.emit()
 
 
-func _on_check_box_pressed():
+func _on_neighbors_pressed():
 	clear_connected_highlights()
-	if check_box.button_pressed:
+	if neighbors_checkbox.button_pressed:
+		rings_checkbox.button_pressed = false
 		highlight_connected()
+
+
+func _on_rings_pressed():
+	clear_connected_highlights()
+	if rings_checkbox.button_pressed:
+		neighbors_checkbox.button_pressed = false
+		highlight_rings()

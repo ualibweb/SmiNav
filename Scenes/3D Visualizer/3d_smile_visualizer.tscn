@@ -93,6 +93,14 @@ text = "Hold Ctrl To Multi-Select"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Fragment_text" type="Label" parent="Control/SMILES Container"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_73ak5")
+text = "Only Largest Fragment Is Displayed"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Options" type="VBoxContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 2
@@ -129,7 +137,7 @@ popup/item_2/id = 2
 popup/item_3/text = "Yellow"
 popup/item_3/id = 3
 
-[node name="CheckBox" type="CheckBox" parent="Control/Options"]
+[node name="Neighbors" type="CheckBox" parent="Control/Options"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0.494118, 0.494118, 0.494118, 1)
@@ -142,6 +150,20 @@ theme_override_constants/h_separation = 10
 theme_override_constants/check_v_offset = 2
 theme_override_fonts/font = ExtResource("2_73ak5")
 text = "Highlight Neighbors"
+
+[node name="Rings" type="CheckBox" parent="Control/Options"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.494118, 0.494118, 0.494118, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/h_separation = 10
+theme_override_constants/check_v_offset = 2
+theme_override_fonts/font = ExtResource("2_73ak5")
+text = "Show Containing Ring(s)"
 
 [node name="Back" type="Button" parent="Control"]
 custom_minimum_size = Vector2(100, 50)
@@ -168,5 +190,6 @@ theme_override_styles/focus = SubResource("StyleBoxFlat_d23yw")
 text = "Go Back"
 
 [connection signal="item_selected" from="Control/Options/HBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]
-[connection signal="pressed" from="Control/Options/CheckBox" to="." method="_on_check_box_pressed"]
+[connection signal="pressed" from="Control/Options/Neighbors" to="." method="_on_neighbors_pressed"]
+[connection signal="pressed" from="Control/Options/Rings" to="." method="_on_rings_pressed"]
 [connection signal="pressed" from="Control/Back" to="." method="_on_button_pressed"]

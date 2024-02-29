@@ -17,6 +17,13 @@ pixel_size = 0.01
 text = "CA"
 font = ExtResource("2_tl2cg")
 
+[node name="Label3D2" type="Label3D" parent="Label3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.15, 0)
+pixel_size = 0.01
+text = "+3"
+font = ExtResource("2_tl2cg")
+font_size = 24
+
 [node name="Highlight" type="Sprite3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0.5)
 modulate = Color(1, 1, 1, 0.447059)

@@ -11,3 +11,7 @@ SMILES visualization with Godot
 
 ![](Images/3d_base.png)
 ![](Images/3d_highlight.png)
+
+## Todo
+* Longest path
+* Reverse clicking

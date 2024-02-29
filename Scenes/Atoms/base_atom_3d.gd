@@ -2,6 +2,7 @@ extends CSGSphere3D
 
 @onready var label = $Label3D
 @onready var highlight = $Highlight
+@onready var label_3d_2 = $Label3D/Label3D2
 
 # Colors
 const WHITE = Color8(255,255,255)
@@ -33,7 +34,8 @@ func _ready():
 func _on_modulate_highlight():
 	highlight.modulate = Color(Globals.selected_color, .1)
 
-func update_atom(atom_type:String):
+func update_atom(atom_type:String, charge: int):
+	label_3d_2.visible = false
 	print(atom_type)
 	var atom_material: Material = get_material()
 	if atom_type == "C":
@@ -88,6 +90,15 @@ func update_atom(atom_type:String):
 	else:
 		label.modulate = PINK
 		atom_material.albedo_color = PINK
+	label_3d_2.visible = true
+	if charge == 0:
+		label_3d_2.visible = false
+	elif charge == -1:
+		label_3d_2.text = "-"
+	elif charge == 1:
+		label_3d_2.text = "+"
+	else:
+		label_3d_2.text = str(charge)
 
 func turn_on_highlight():
 	highlight.show()

@@ -3,6 +3,12 @@ from rdkit import rdBase, Chem, Geometry
 from rdkit.Chem import AllChem, Draw
 print('RDKit version: ',rdBase.rdkitVersion)
 
+elements_filename = 'elements.txt'
+connections_filename = 'connections.txt'
+alt_elements_filename = 'two_d_elements.txt'
+alt_connections_filename = 'two_d_connections.txt'
+rings_filename = 'rings.txt'
+
 # Code from https://github.com/pschwllr/MolecularTransformer
 def smi_tokenizer(smi):
     """
@@ -16,13 +22,11 @@ def smi_tokenizer(smi):
     return ' '.join(tokens)
 
 
-def smiles_to_files(smiles, elements_filename='elements.txt', connections_filename='connections.txt', alt_elements_filename='two_d_elements.txt', alt_connections_filename='two_d_connections.txt'):
+def smiles_to_files(smiles):
     mol = Chem.MolFromSmiles(smiles)
     if not mol:
         raise ValueError("Invalid SMILES string")
-    # Check if there are explicit hydrogens in the SMILES string
-    if 'H' in smiles:
-        mol = Chem.rdmolops.AddHs(mol, explicitOnly = True)
+    mol = Chem.rdmolops.AddHs(mol, explicitOnly = True)
     
     AllChem.EmbedMolecule(mol)
 
@@ -50,11 +54,13 @@ def smiles_to_files(smiles, elements_filename='elements.txt', connections_filena
         for idx, frag in enumerate(Chem.GetMolFrags(mol, asMols=True)):
             for atom in frag.GetAtoms():
                 position = frag.GetConformer().GetAtomPosition(atom.GetIdx())
+                # Get atom charges
+                atom_charge = atom.GetFormalCharge()
                 if frag.GetNumAtoms() != largest_frag.GetNumAtoms():
-                    elements_file.write(f"{atom.GetSymbol()} {atom_index} -1 -1 -1\n")
+                    elements_file.write(f"{atom.GetSymbol()} {atom_index} -1 -1 -1 {atom_charge}\n")
                     non_existent_atoms.append(atom_index)
                 else:
-                    elements_file.write(f"{atom.GetSymbol()} {atom_index} {position.x} {position.y} {position.z}\n")
+                    elements_file.write(f"{atom.GetSymbol()} {atom_index} {position.x} {position.y} {position.z} {atom_charge}\n")
                 atom_index += 1
         
     
@@ -77,9 +83,10 @@ def smiles_to_files(smiles, elements_filename='elements.txt', connections_filena
     with open(alt_elements_filename, 'w') as alt_elements_file:
         for atom in mol.GetAtoms():
             position = conf.GetAtomPosition(atom.GetIdx())
+            atom_charge = atom.GetFormalCharge()
             pos_point = Geometry.Point2D(position.x, position.y)
             dpos = drawer.GetDrawCoords(pos_point)
-            alt_elements_file.write(f"{atom.GetSymbol()} {atom.GetIdx()} {dpos.x} {dpos.y}\n")
+            alt_elements_file.write(f"{atom.GetSymbol()} {atom.GetIdx()} {dpos.x} {dpos.y} {atom_charge}\n")
     
     # Output connections
     with open(alt_connections_filename, 'w') as connections_file:
@@ -87,7 +94,10 @@ def smiles_to_files(smiles, elements_filename='elements.txt', connections_filena
             # Check if the bond is between atoms that don't exist in the largest fragment
             connections_file.write(f"{bond.GetBeginAtomIdx()} - {bond.GetEndAtomIdx()} - {bond.GetBondTypeAsDouble()}\n")
 
-
+    # Output the rings
+    with open(rings_filename, 'w') as rings_file:
+        for ring in mol.GetRingInfo().AtomRings():
+            rings_file.write(' '.join(map(str, ring)) + '\n')
 
 if __name__ == "__main__":
     args = sys.argv[1:]

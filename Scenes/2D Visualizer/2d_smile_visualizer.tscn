@@ -108,7 +108,7 @@ popup/item_2/id = 2
 popup/item_3/text = "Yellow"
 popup/item_3/id = 3
 
-[node name="CheckBox" type="CheckBox" parent="Control/Options"]
+[node name="Neighbors" type="CheckBox" parent="Control/Options"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0.494118, 0.494118, 0.494118, 1)
@@ -121,6 +121,20 @@ theme_override_constants/h_separation = 10
 theme_override_constants/check_v_offset = 2
 theme_override_fonts/font = ExtResource("2_165ru")
 text = "Highlight Neighbors"
+
+[node name="Rings" type="CheckBox" parent="Control/Options"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.494118, 0.494118, 0.494118, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/h_separation = 10
+theme_override_constants/check_v_offset = 2
+theme_override_fonts/font = ExtResource("2_165ru")
+text = "Show Containing Ring(s)"
 
 [node name="Back" type="Button" parent="Control"]
 custom_minimum_size = Vector2(100, 50)
@@ -152,5 +166,6 @@ text = "Go Back"
 metadata/_edit_lock_ = true
 
 [connection signal="item_selected" from="Control/Options/HBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]
-[connection signal="pressed" from="Control/Options/CheckBox" to="." method="_on_check_box_pressed"]
+[connection signal="pressed" from="Control/Options/Neighbors" to="." method="_on_neighbors_pressed"]
+[connection signal="pressed" from="Control/Options/Rings" to="." method="_on_rings_pressed"]
 [connection signal="pressed" from="Control/Back" to="." method="_on_button_pressed"]
