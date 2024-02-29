@@ -82,3 +82,8 @@ func turn_on_highlight():
 
 func turn_off_highlight():
 	highlight.hide()
+
+
+func _on_static_body_2d_input_event(viewport, event, shape_idx):
+	if event is InputEventMouseButton and event.pressed == true:
+		Globals.node_clicked.emit(self)

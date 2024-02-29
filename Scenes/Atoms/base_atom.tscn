@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://fau0b8o80622"]
+[gd_scene load_steps=4 format=3 uid="uid://fau0b8o80622"]
 
 [ext_resource type="Script" path="res://Scenes/Atoms/base_atom.gd" id="1_ntb6r"]
 [ext_resource type="Texture2D" uid="uid://psq8t3ocnca2" path="res://Scenes/Atoms/highlight.png" id="2_1r31h"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fblk3"]
+radius = 20.0
 
 [node name="Base Atom" type="Node2D"]
 z_index = 1
@@ -47,3 +50,11 @@ z_index = -1
 z_as_relative = false
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_1r31h")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+input_pickable = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_fblk3")
+
+[connection signal="input_event" from="StaticBody2D" to="." method="_on_static_body_2d_input_event"]

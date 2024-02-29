@@ -14,4 +14,3 @@ SMILES visualization with Godot
 
 ## Todo
 * Longest path
-* Reverse clicking

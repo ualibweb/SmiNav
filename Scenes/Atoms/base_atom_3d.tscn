@@ -1,10 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://bohb6gjvdnu4y"]
+[gd_scene load_steps=6 format=3 uid="uid://bohb6gjvdnu4y"]
 
 [ext_resource type="Script" path="res://Scenes/Atoms/base_atom_3d.gd" id="1_snnk8"]
 [ext_resource type="Texture2D" uid="uid://psq8t3ocnca2" path="res://Scenes/Atoms/highlight.png" id="2_33pcd"]
 [ext_resource type="FontFile" uid="uid://d4bw7aq2ggi5w" path="res://Fonts/cour.ttf" id="2_tl2cg"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kxjlh"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_qxeea"]
+radius = 0.6
 
 [node name="Base Atom 3D" type="CSGSphere3D"]
 rings = 12
@@ -28,3 +31,10 @@ font_size = 24
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0.5)
 modulate = Color(1, 1, 1, 0.447059)
 texture = ExtResource("2_33pcd")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("SphereShape3D_qxeea")
+
+[connection signal="input_event" from="StaticBody3D" to="." method="_on_static_body_3d_input_event"]

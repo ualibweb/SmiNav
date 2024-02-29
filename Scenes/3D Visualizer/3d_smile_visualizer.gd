@@ -34,6 +34,7 @@ func _ready():
 	await add_rings()
 	await generate_smiles_array()
 	Globals.modulate_highlight.connect(_on_update_colors)
+	Globals.node_clicked.connect(_on_node_pressed)
 	Globals.modulate_highlight.emit()
 	_on_enter_colors()
 	if fragment:
@@ -114,6 +115,15 @@ func generate_theme_stylebox():
 	var new_stylebox = StyleBoxFlat.new()
 	new_stylebox.bg_color = Color(Globals.selected_color, .5)
 	return new_stylebox
+
+func _on_node_pressed(atom_node):
+	var atom_idx = atoms.find(atom_node)
+	if atom_idx >= atom_buttons.size():
+		return
+	var relative_button = atom_buttons[atom_idx]
+	if relative_button:
+		relative_button.button_pressed = true
+		update_buttons(relative_button)
 
 func update_buttons(button_node):
 	if ctrl_pressed:
