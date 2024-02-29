@@ -26,7 +26,9 @@ SMILES visualization with Godot
 ## Installation of binaries
 
 For Ubuntu and Debian systems, install the base `.zip`
+
 For Arm Linux systems like Raspi, install the `arm.zip`
+
 For Windows systems, install the `exe.zip`
 
 ---
