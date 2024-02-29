@@ -5,12 +5,10 @@ smidot is a GUI visualizer for parts of the SMILES syntax. It was inspired by An
 
 ## 2D
 
-![](Images/2d_base.png)
 ![](Images/2d_highlight.png)
 
 ## 3D
 
-![](Images/3d_base.png)
 ![](Images/3d_highlight.png)
 
 ## Installation of source code in godot
