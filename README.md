@@ -12,7 +12,18 @@ SMILES visualization with Godot
 ![](Images/3d_base.png)
 ![](Images/3d_highlight.png)
 
-## Installation
+## Installation of source code in godot
+
+1. Download the source code from the repository
+`git clone https://github.com/ualibweb/smidot.git`
+2. Open Godot and click on `Import`
+3. Navigate to the `smidot` folder and click on `Open` on the `project.godot` file
+
+### To run the program
+
+1. In the Godot editor, click on the `Play` button to run `►` the program on the top right corner of the window. 
+
+## Installation of binaries
 
 For Ubuntu and Debian systems, install the base `.zip`
 For Arm Linux systems like Raspi, install the `arm.zip`
