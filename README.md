@@ -1,7 +1,7 @@
 # SmiNav
 ### SMILES visualization with Godot
 
-SmiNav (SMILES Navigator) is a GUI visualizer for parts of the SMILES syntax. It was inspired by Andrew Dalke's [smiview](https://hg.sr.ht/~dalke/smiview). It uses the [RDKit](https://www.rdkit.org/) library in Python to parse the SMILES string and return mol coordinates and properties that are then used to create a 2D or 3D visualization of the molecule. The visualization is done using the [Godot game engine](https://godotengine.org/).
+SmiNav (SMILES Navigator) is a GUI visualizer for parts of the SMILES syntax (atoms, neighbors, and rings). It was inspired by Andrew Dalke's [smiview](https://hg.sr.ht/~dalke/smiview). It uses the [RDKit](https://www.rdkit.org/) library in Python to parse the SMILES string and return mol coordinates and properties that are then used to create a 2D or 3D visualization of the molecule. The visualization is done using the [Godot game engine](https://godotengine.org/).
 
 To use SmiNav, input a SMILES string, then click on an atom in the string. The corresponding atom in the depiction will then get highlighted. The reverse works as well; that is, click on an atom in the depiction and the corresponding atom in the SMILES string will get highlighted.
 
@@ -121,4 +121,11 @@ If you prefer to manually set up a virtual environment within the SmiNav folder,
 1. If Python dependencies installation fails with SmiNav, delete the created .venv folder before trying again. Typical failure is not having Python 3 or Python venv installed.
 
 2. Testing - We have last tested SmiNav with Godot v.4.2.1, RDKit 2023.09.05, and Python 3.11. See also the Godot minimum requirements: https://docs.godotengine.org/en/stable/about/system_requirements.html
+
+
+### Known Limitations
+
+1. In the 2D depictions, stereochemistry is not shown
+
+2. Currently only the atom Symbols are interactive in the SMILES string.
 
