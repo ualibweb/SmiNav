@@ -10,12 +10,12 @@ config_version=5
 
 [application]
 
-config/name="Smidot"
+config/name="SmiNav"
 config/version="1.0"
 run/main_scene="res://Scenes/Main Menu/python_runner.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
-boot_splash/image="res://smidot_logo.png"
-config/icon="res://smidot_logo.png"
+boot_splash/image="res://sminav_logo.png"
+config/icon="res://sminav_logo.png"
 
 [autoload]
 

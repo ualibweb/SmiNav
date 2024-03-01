@@ -1,7 +1,7 @@
-# smidot
+# SmiNav
 ### SMILES visualization with Godot
 
-smidot is a GUI visualizer for parts of the SMILES syntax. It was inspired by Andrew Dalke's [smiview](https://hg.sr.ht/~dalke/smiview). It uses the [RDKit](https://www.rdkit.org/) library in python to parse the SMILES string and return data that is then used to create a 2D or 3D visualization of the molecule. The visualization is done using the Godot game engine.
+SmiNav is a GUI visualizer for parts of the SMILES syntax. It was inspired by Andrew Dalke's [smiview](https://hg.sr.ht/~dalke/smiview). It uses the [RDKit](https://www.rdkit.org/) library in python to parse the SMILES string and return data that is then used to create a 2D or 3D visualization of the molecule. The visualization is done using the Godot game engine.
 
 ## 2D
 
@@ -14,9 +14,9 @@ smidot is a GUI visualizer for parts of the SMILES syntax. It was inspired by An
 ## Installation of source code in godot
 
 1. Download the source code from the repository
-`git clone https://github.com/ualibweb/smidot.git`
+`git clone https://github.com/ualibweb/sminav.git`
 2. Open Godot and click on `Import`
-3. Navigate to the `smidot` folder and click on `Open` on the `project.godot` file
+3. Navigate to the `SmiNav` folder and click on `Open` on the `project.godot` file
 
 ### To run the program
 

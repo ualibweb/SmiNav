@@ -59,7 +59,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.0588235, 1, 0.313726, 1)
 theme_override_fonts/font = ExtResource("2_2r588")
 theme_override_font_sizes/font_size = 100
-text = "Smidot"
+text = "SmiNav"
 
 [node name="Description" type="Label" parent="Text"]
 layout_mode = 2
@@ -183,7 +183,7 @@ theme_override_constants/line_spacing = 15
 theme_override_fonts/font = ExtResource("2_2r588")
 theme_override_font_sizes/font_size = 35
 theme_override_styles/normal = SubResource("StyleBoxFlat_s1acq")
-placeholder_text = " Enter Smiles"
+placeholder_text = " Enter SMILES"
 caret_blink = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Options/Inputs"]
@@ -270,7 +270,7 @@ grow_vertical = 0
 theme_override_colors/font_color = Color(0.0588235, 1, 0.313726, 1)
 theme_override_fonts/font = ExtResource("2_2r588")
 theme_override_font_sizes/font_size = 25
-text = "github.com/ualibweb/smidot"
+text = "github.com/ualibweb/sminav"
 flat = true
 
 [connection signal="pressed" from="Options/Colors/Red" to="." method="_on_red_pressed"]

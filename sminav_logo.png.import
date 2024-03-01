@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://e3a85lbe6mo7"
-path="res://.godot/imported/smidot_logo.png-10ab412516338ff36829cf03c6955cb7.ctex"
+uid="uid://kel2rl4oqqes"
+path="res://.godot/imported/sminav_logo.png-ec2eb9032eb1ac7b7f1c8d3e1563d919.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://smidot_logo.png"
-dest_files=["res://.godot/imported/smidot_logo.png-10ab412516338ff36829cf03c6955cb7.ctex"]
+source_file="res://sminav_logo.png"
+dest_files=["res://.godot/imported/sminav_logo.png-ec2eb9032eb1ac7b7f1c8d3e1563d919.ctex"]
 
 [params]
 
