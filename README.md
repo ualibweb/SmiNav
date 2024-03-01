@@ -3,13 +3,17 @@
 
 SmiNav is a GUI visualizer for parts of the SMILES syntax. It was inspired by Andrew Dalke's [smiview](https://hg.sr.ht/~dalke/smiview). It uses the [RDKit](https://www.rdkit.org/) library in python to parse the SMILES string and return data that is then used to create a 2D or 3D visualization of the molecule. The visualization is done using the Godot game engine.
 
+## Main Screen
+
+![](Images/MainScreen.png)
+
 ## 2D
 
-![](Images/2d_highlight.png)
+![](Images/2D.png)
 
 ## 3D
 
-![](Images/3d_highlight.png)
+![](Images/3D.png)
 
 ## Installation of source code in godot
 
