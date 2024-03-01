@@ -26,13 +26,13 @@ SmiNav (SMILES Navigator) is a GUI visualizer for parts of the SMILES syntax. It
 
 In the Godot editor, click on the `Play` button to run `►` the program on the top right corner of the window.
 
-## Installation of binaries
+## Downlad binaries from Releases
 
-For Ubuntu and Debian systems, install the base `SmiNav_Linux.zip`
+For Ubuntu and Debian systems, download the base `SmiNav_Linux.zip`
 
-For Arm64 Linux systems like Raspi, install the `SmiNav_LinuxArm.zip`
+For Arm64 Linux systems like Raspi, download the `SmiNav_LinuxArm.zip`
 
-For Windows systems, install the `SmiNav_Windows.zip`
+For Windows systems, download the `SmiNav_Windows.zip`
 
 ### Running Binaries
 
@@ -42,6 +42,10 @@ For Windows systems, install the `SmiNav_Windows.zip`
      - If needed, use opengl3-es, ./SmiNav.arm64 --rendering-driver opengl3_es
 
 3. Windows - Click on SmiNav.exe
+
+**On all platforms, SmiNav will detect a .venv enviroment and if it has RDKit installed. If not, you are given the option with "Install Requirements"
+to set this up for you. Alternatively, see below for manual instructions on how to setup your virtual Python environment, if you do not want SmiNav
+to do this for you.**
 
 ---
 
