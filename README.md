@@ -77,8 +77,6 @@ To install and prepare your systems for running a program that requires Python 3
      pip install virtualenv
      ```
 
-These instructions will guide you through installing the necessary software and setting up a Python virtual environment, which is essential for running Python-based applications securely and without interfering with system-wide Python packages.
-
 ## Advanced Installation
 
 ### Manually Setting Up a Virtual Environment
