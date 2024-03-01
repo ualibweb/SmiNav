@@ -62,7 +62,7 @@ To install and prepare your systems for running a program that requires Python 3
      ```
    - If you don't have Python 3.7 or greater, install it:
      ```bash
-     sudo apt-get install python3.7
+     sudo apt-get install python3
      ```
    - Install `python3-venv` to use virtual environments:
      ```bash
@@ -116,4 +116,6 @@ If you prefer to manually set up a virtual environment, follow these steps:
 ### FAQ
 
 1. If Python dependencies installation fails, delete .venv in /smiNav folder before trying again. Typical failure is not having Python 3 or Python venv installed.
+
+2. Testing - We have last tested SmiNav with Godot v.4.2.1, RDKit 2023.09.05, and Python 3.11.
 
