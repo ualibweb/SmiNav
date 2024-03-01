@@ -24,15 +24,24 @@ SmiNav is a GUI visualizer for parts of the SMILES syntax. It was inspired by An
 
 ### To run the program
 
-1. In the Godot editor, click on the `Play` button to run `►` the program on the top right corner of the window. 
+In the Godot editor, click on the `Play` button to run `►` the program on the top right corner of the window.
 
 ## Installation of binaries
 
-For Ubuntu and Debian systems, install the base `Linux.zip`
+For Ubuntu and Debian systems, install the base `SmiNav.-.Linux.zip`
 
-For Arm Linux systems like Raspi, install the `Linux Arm.zip`
+For Arm64 Linux systems like Raspi, install the `SmiNav.-.Linux.Arm.zip`
 
-For Windows systems, install the `Windows.zip`
+For Windows systems, install the `SmiNav.-.Windows.zip`
+
+### Running Binaries
+
+1. Linux x86 - Open binary in file navigator or start from terminal (e.g., ./SmiNav.x86_64)
+
+2. Linux ARM64 - Open binary in file navigator or start from terminal with (e.g., ./SmiNav.arm64)
+     - If needed, use opengl3-es, ./SmiNav.arm64 --rendering-driver opengl3_es
+
+3. Windows - Click on SmiNav.exe
 
 ---
 
