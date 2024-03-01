@@ -65,7 +65,6 @@ func _on_update_colors():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if Input.is_action_just_pressed("multi-select"):
-		print("Ctrl Pressed Now")
 		ctrl_pressed = true
 	if Input.is_action_just_released("multi-select"):
 		ctrl_pressed = false
@@ -228,9 +227,6 @@ func add_connections():
 		var height = distance
 		var new_connection = get_connection(bond_type)
 		structure.add_child(new_connection)
-		print(first_index, " lol ", second_index)
-		print("First Atom:", atoms[first_index].get_node("Label").text)
-		print("Second Atom:", atoms[second_index].get_node("Label").text)
 		if atoms[first_index].get_node("Label") and atoms[first_index].get_node("Label").text != "":
 			new_connection.global_position = first_element_position + direction * .2
 			height -= distance * .2
@@ -246,7 +242,6 @@ func add_connections():
 
 
 func get_connection(bond_type):
-	print(bond_type)
 	if bond_type == "1.0":
 		return SINGLE_BOND.instantiate()
 	if bond_type == "2.0":

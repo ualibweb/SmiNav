@@ -36,15 +36,17 @@ func setup_venv():
 
 func check_if_venv_exists() -> bool:
 	var current_directory = DirAccess.open(base_path + ".venv/")
-	print(current_directory)
 	if current_directory:
 		return true
 	return false
 
 
 func run_python_script(python_script_path, arguments):
-	var python_executable = base_path + ".venv/bin/python"
-	print(python_executable)
+	var python_executable
+	if OS.get_name() == "Windows":
+		python_executable = base_path + ".venv/Scripts/python"
+	else:
+		python_executable = base_path + ".venv/bin/python"
 	var script_path = base_path + python_script_path
 	var python_arguments = arguments
 	var args = [script_path] + python_arguments
@@ -59,5 +61,4 @@ func run_python_script(python_script_path, arguments):
 	else:
 		print("Failed to execute command.")
 		print(error)
-	print("Finished")
 	return output

@@ -36,7 +36,6 @@ func _on_modulate_highlight():
 
 func update_atom(atom_type:String, charge: int):
 	label_3d_2.visible = false
-	print(atom_type)
 	var atom_material: Material = get_material()
 	if atom_type == "C":
 		label.text = ""

@@ -68,7 +68,6 @@ func _on_update_colors():
 func _process(delta):
 	Globals.camera_position.emit($Camera3D.global_position)
 	if Input.is_action_just_pressed("multi-select"):
-		print("Ctrl Pressed Now")
 		ctrl_pressed = true
 	if Input.is_action_just_released("multi-select"):
 		ctrl_pressed = false
