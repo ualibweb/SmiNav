@@ -43,7 +43,7 @@ For Windows systems, download the `SmiNav_Windows.zip`
 1. Linux x86 - Open binary in file navigator or start from terminal (e.g., `./SmiNav.x86_64`)
 
 2. Linux ARM64 - Open binary in file navigator or start from terminal with (e.g., `./SmiNav.arm64`)
-     - If needed, use opengl3-es, ./SmiNav.arm64 --rendering-driver opengl3_es
+     - If needed, use opengl3_es, `./SmiNav.arm64 --rendering-driver opengl3_es`
 
 3. Windows - Click on SmiNav.exe
 
