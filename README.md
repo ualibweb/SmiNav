@@ -129,3 +129,5 @@ If you prefer to manually set up a virtual environment within the SmiNav folder,
 
 2. Currently only the atom Symbols are interactive in the SMILES string.
 
+3. When the "Highlight Neighbors" or "Show Containing Rings" boxes are checked, it does not yet highlight the additional atoms in the corresponding SMILES string (issue #1).
+
