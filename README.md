@@ -117,5 +117,5 @@ If you prefer to manually set up a virtual environment, follow these steps:
 
 1. If Python dependencies installation fails, delete .venv in /smiNav folder before trying again. Typical failure is not having Python 3 or Python venv installed.
 
-2. Testing - We have last tested SmiNav with Godot v.4.2.1, RDKit 2023.09.05, and Python 3.11.
+2. Testing - We have last tested SmiNav with Godot v.4.2.1, RDKit 2023.09.05, and Python 3.11. See also the Godot minimum requirements: https://docs.godotengine.org/en/stable/about/system_requirements.html
 
