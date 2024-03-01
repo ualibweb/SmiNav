@@ -8,6 +8,7 @@ var system_ready = false
 @onready var title = $Text/Title
 @onready var github = $Github
 @onready var output = $Options/Output
+@onready var exit = $Options/Exit
 
 @onready var color_buttons = [$Options/Colors/Red, $Options/Colors/Yellow, $Options/Colors/Green, $Options/Colors/Purple]
 # Called when the node enters the scene tree for the first time.
@@ -44,6 +45,7 @@ func _on_update_colors():
 	_3d.add_theme_color_override("font_color", Globals.selected_color)
 	python_install.add_theme_color_override("font_color", Globals.selected_color)
 	github.add_theme_color_override("font_color", Globals.selected_color)
+	exit.add_theme_color_override("font_color", Globals.selected_color)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

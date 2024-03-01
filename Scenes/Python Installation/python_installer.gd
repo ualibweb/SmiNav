@@ -30,7 +30,7 @@ func _setup_venv_thread():
 	for executable in executables:
 		output.clear() # Clear previous output
 		rich_text_label.add_text.call_deferred("Installing Python via " + executable + " " + " ".join(args) + "\n")
-		error = OS.execute(executable, args, output, true, true)
+		error = OS.execute(executable, args, output, true, false)
 		for line in output:
 			rich_text_label.add_text.call_deferred(line)
 		if error == OK:
@@ -64,7 +64,7 @@ func install_libraries(executable):
 	var args = ["install"] + libraries
 	var output = []
 	rich_text_label.add_text.call_deferred("Installing libraries via " + pip_path + " " + " ".join(args) + "\n")
-	var error = OS.execute(pip_path, args, output, true, true)
+	var error = OS.execute(pip_path, args, output, true, false)
 	for line in output:
 		rich_text_label.add_text.call_deferred(line)
 	if error == OK:

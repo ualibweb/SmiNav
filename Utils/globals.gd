@@ -51,7 +51,7 @@ func run_python_script(python_script_path, arguments):
 	var python_arguments = arguments
 	var args = [script_path] + python_arguments
 	var output = []
-	var error = OS.execute(python_executable, args, output, true, true)
+	var error = OS.execute(python_executable, args, output, true, false)
 	for line in output:
 		print(line)
 	if error == OK:
