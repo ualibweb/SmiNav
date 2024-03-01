@@ -107,4 +107,9 @@ If you prefer to manually set up a virtual environment, follow these steps:
       pip install rdkit
       ```
     - This will install all the necessary Python packages for the project within the virtual environment, ensuring that they do not interfere with your system-wide Python installation.
+  
+
+### FAQ
+
+1. If Python dependencies installation fails, delete .venv in /smiNav folder before trying again. Typical failure is not having Python 3 or Python venv installed.
 
