@@ -28,11 +28,11 @@ In the Godot editor, click on the `Play` button to run `►` the program on the 
 
 ## Installation of binaries
 
-For Ubuntu and Debian systems, install the base `SmiNav.-.Linux.zip`
+For Ubuntu and Debian systems, install the base `SmiNav_Linux.zip`
 
-For Arm64 Linux systems like Raspi, install the `SmiNav.-.Linux.Arm.zip`
+For Arm64 Linux systems like Raspi, install the `SmiNav_LinuxArm.zip`
 
-For Windows systems, install the `SmiNav.-.Windows.zip`
+For Windows systems, install the `SmiNav_Windows.zip`
 
 ### Running Binaries
 
