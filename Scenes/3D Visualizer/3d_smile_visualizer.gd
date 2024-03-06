@@ -1,5 +1,6 @@
 extends Node3D
 
+# Node references using `onready` to get the nodes from the scene
 @onready var structure = $Structure
 @onready var h_box_container = $"Control/SMILES Container/ScrollContainer/HBoxContainer"
 @onready var neighbors_checkbox = $Control/Options/Neighbors
@@ -8,12 +9,17 @@ extends Node3D
 @onready var option_button = $Control/Options/HBoxContainer/OptionButton
 @onready var fragment_text = $"Control/SMILES Container/Fragment_text"
 
+# Preloading the scenes for 3D representation of atoms and bonds
 const BASE_ATOM_3D = preload("res://Scenes/Atoms/base_atom_3d.tscn")
 const SINGLE_BOND_3D = preload("res://Scenes/Bonds/single_bond_3d.tscn")
 const DOUBLE_BOND_3D = preload("res://Scenes/Bonds/double_bond_3d.tscn")
 const TRIPLE_BOND_3D = preload("res://Scenes/Bonds/triple_bond_3d.tscn")
 const ARROMATIC_BOND_3D = preload("res://Scenes/Bonds/arromatic_bond_3d.tscn")
+
+# Preloading the font
 const COUR = preload("res://Fonts/cour.ttf")
+
+# Variables to store the atoms, bonds, rings, and highlighted elements
 var atoms = []
 var bonds = []
 var rings = []
@@ -23,10 +29,12 @@ var highlighted_connected_atoms = []
 var highlighted_connected_bonds = []
 var atom_buttons = []
 
+# Variables to store the state of the application
 var ctrl_pressed = false
 var fragment = false
+var holding_left_click = false
 
-# Called when the node enters the scene tree for the first time.
+# Initializes elements, connections, rings, hides or shows fragment text, and sets initial colors.
 func _ready():
 	fragment_text.visible = false
 	await add_elements()
@@ -40,6 +48,7 @@ func _ready():
 	if fragment:
 		fragment_text.visible = true
 
+# Sets the option button to the selected color
 func _on_enter_colors():
 	var selected_button = null
 	if Globals.selected_color == Globals.NEON_RED:
@@ -53,6 +62,7 @@ func _on_enter_colors():
 	else:
 		option_button.selected = 2
 
+# Applies the selected color to the UI elements
 func _on_update_colors():
 	back.add_theme_color_override("font_color", Globals.selected_color)
 	option_button.add_theme_color_override("font_color", Globals.selected_color)
@@ -64,7 +74,7 @@ func _on_update_colors():
 		button.add_theme_stylebox_override("pressed", stylebox)
 	
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+# Emits the camera position and handles multi-select input.
 func _process(delta):
 	Globals.camera_position.emit($Camera3D.global_position)
 	if Input.is_action_just_pressed("multi-select"):
@@ -72,18 +82,25 @@ func _process(delta):
 	if Input.is_action_just_released("multi-select"):
 		ctrl_pressed = false
 
+# Helper functions to determine if a string contains alphabetic characters and if a character is alphabetic.
 func contains_alpha_char(characters: String) -> bool:
 	for character in characters:
 		if is_alpha(character):
 			return true
 	return false
 
+# Helper function to determine if a character is alphabetic.
 func is_alpha(character: String) -> bool:
 	if character.length() == 0:
 		return false
 	var code = character[0].to_ascii_buffer()[0]
 	return (code >= 'a'.to_ascii_buffer()[0] and code <= 'z'.to_ascii_buffer()[0]) or (code >= 'A'.to_ascii_buffer()[0] and code <= 'Z'.to_ascii_buffer()[0])
 
+# Generates an array of SMILES representation buttons.
+# The array is generated from a text file containing the SMILES representation of atoms.
+# The array is then added to the HBoxContainer.
+# The array is then connected to the update_buttons function.
+# Atom is checked for alpha characters and if it contains alpha characters, the atom is added to the array.
 func generate_smiles_array():
 	var base_path = ProjectSettings.globalize_path("res://")
 	var elements_file = FileAccess.open(base_path + "smiles.txt",FileAccess.READ)
@@ -110,11 +127,13 @@ func generate_smiles_array():
 		else:
 			new_button.disabled = true
 
+# Generates a stylebox for the selected color.
 func generate_theme_stylebox():
 	var new_stylebox = StyleBoxFlat.new()
 	new_stylebox.bg_color = Color(Globals.selected_color, .5)
 	return new_stylebox
 
+# Updates the buttons and highlights the atoms and bonds.
 func _on_node_pressed(atom_node):
 	var atom_idx = atoms.find(atom_node)
 	if atom_idx >= atom_buttons.size():
@@ -124,6 +143,7 @@ func _on_node_pressed(atom_node):
 		relative_button.button_pressed = true
 		update_buttons(relative_button)
 
+# Updates the buttons and highlights the atoms and bonds.
 func update_buttons(button_node):
 	if ctrl_pressed:
 		update_highlights()
@@ -136,6 +156,7 @@ func update_buttons(button_node):
 		button.button_pressed = false
 	update_highlights()
 
+# Updates the highlights of the atoms and bonds.
 func update_highlights():
 	for atom in highlighted_atoms:
 		atom.turn_off_highlight.call_deferred()
@@ -160,6 +181,7 @@ func update_highlights():
 	if rings_checkbox.button_pressed:
 		highlight_rings()
 
+# Highlights the connected atoms and bonds.
 func highlight_connected():
 	highlighted_connected_atoms.clear()
 	highlighted_connected_bonds.clear()
@@ -171,6 +193,7 @@ func highlight_connected():
 				atom.turn_on_highlight.call_deferred()
 				highlighted_connected_atoms.append(atom)
 
+# Highlights the rings.
 func highlight_rings():
 	highlighted_connected_atoms.clear()
 	highlighted_connected_bonds.clear()
@@ -187,6 +210,7 @@ func highlight_rings():
 			bond.turn_on_highlight.call_deferred()
 			highlighted_connected_bonds.append(bond)
 
+# Clears the connected highlights.
 func clear_connected_highlights():
 	for atom in highlighted_connected_atoms:
 		if atom in highlighted_atoms:
@@ -199,6 +223,10 @@ func clear_connected_highlights():
 	highlighted_connected_atoms.clear()
 	highlighted_connected_bonds.clear()
 
+# Adds the elements to the scene.
+# The elements are read from a text file and added to the scene.
+# The elements are added to the atoms array.
+# If the x, y, and z positions are -1, the element is a fragment and thus the atoms array is appended with an empty string.
 func add_elements():
 	var base_path = ProjectSettings.globalize_path("res://")
 	var elements_file = FileAccess.open(base_path + "elements.txt",FileAccess.READ)
@@ -223,6 +251,7 @@ func add_elements():
 		atom_node.update_atom(symbol, charge)
 		atoms.append(atom_node)
 
+# Adds the connections to the scene.
 func add_connections():
 	var base_path = ProjectSettings.globalize_path("res://")
 	var elements_file = FileAccess.open(base_path + "connections.txt",FileAccess.READ)
@@ -263,6 +292,7 @@ func add_connections():
 		var new_bond = Bond_3D.new(new_connection, atoms[first_index], atoms[second_index])
 		bonds.append(new_bond)
 
+# Adds the rings to the scene.
 func add_rings():
 	var base_path = ProjectSettings.globalize_path("res://")
 	var rings_file = FileAccess.open(base_path + "rings.txt",FileAccess.READ)
@@ -271,6 +301,7 @@ func add_rings():
 		var elements = ring.strip_edges().split(" ")
 		rings.append(elements)
 
+# Returns the connection based on the bond type.
 func get_connection(bond_type):
 	if bond_type == "1.0":
 		return SINGLE_BOND_3D.instantiate()
@@ -282,9 +313,11 @@ func get_connection(bond_type):
 		return ARROMATIC_BOND_3D.instantiate()
 	return SINGLE_BOND_3D.instantiate()
 
+# Returns the connection based on the bond type.
 func _on_button_pressed():
 	get_tree().change_scene_to_file("res://Scenes/Main Menu/python_runner.tscn")
 
+# Sets the selected color based on the option button index.
 func _on_option_button_item_selected(index):
 	if index == 0:
 		Globals.selected_color = Globals.NEON_RED
@@ -298,25 +331,26 @@ func _on_option_button_item_selected(index):
 		Globals.selected_color = Globals.NEON_YELLOW
 	Globals.modulate_highlight.emit()
 
-
+# Clears the connected highlights and highlights the neighbors or rings.
 func _on_neighbors_pressed():
 	clear_connected_highlights()
 	if neighbors_checkbox.button_pressed:
 		rings_checkbox.button_pressed = false
 		highlight_connected()
 
+# Clears the connected highlights and highlights the neighbors or rings.
 func _on_rings_pressed():
 	clear_connected_highlights()
 	if rings_checkbox.button_pressed:
 		neighbors_checkbox.button_pressed = false
 		highlight_rings()
 
-var holding_left_click = false
+# Rotates the structure based on the mouse position.
 func _input(event):
 	if event is InputEventMouseButton:
-		if event.button_index == 1 and event.pressed == true:
+		if event.button_index == 2 and event.pressed == true:
 			holding_left_click = true
-		if event.button_index == 1 and event.pressed == false:
+		if event.button_index == 2 and event.pressed == false:
 			holding_left_click = false
 	if event is InputEventMouseMotion:
 		if not holding_left_click:
@@ -324,7 +358,3 @@ func _input(event):
 		var mouse_position = event.relative
 		structure.rotate_x(.01 * mouse_position.y)
 		structure.rotate_y(.01 * mouse_position.x)
-
-
-
-

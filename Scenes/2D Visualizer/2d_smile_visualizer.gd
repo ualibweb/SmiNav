@@ -1,35 +1,42 @@
 extends Node2D
 
+# Constants for preloading scenes for different types of chemical bonds and a base atom scene.
 const DOUBLE_BOND = preload("res://Scenes/Bonds/double_bond.tscn")
 const SINGLE_BOND = preload("res://Scenes/Bonds/single_bond.tscn")
 const TRIPLE_BOND = preload("res://Scenes/Bonds/triple_bond.tscn")
 const ARROMATIC_BOND = preload("res://Scenes/Bonds/arromatic_bond.tscn")
 const BASE_ATOM = preload("res://Scenes/Atoms/base_atom.tscn")
 
+# Node references using 'onready' to ensure they are initialized when the script is ready.
 @onready var structure = $Structure
 @onready var h_box_container = $"Control/SMILES Container/ScrollContainer/HBoxContainer"
 @onready var neighbors_checkbox = $Control/Options/Neighbors
 @onready var rings_checkbox = $Control/Options/Rings
 
+# Gets the viewport size for layout calculations.
 @onready var viewport = get_viewport_rect().size
 
+# UI elements for user interaction.
 @onready var back = $Control/Back
 @onready var option_button = $Control/Options/HBoxContainer/OptionButton
 const COUR = preload("res://Fonts/cour.ttf")
 
+# Variables to store atoms, bonds, rings, and UI elements related to atoms.
 var atoms = []
 var bonds = []
 var rings = []
 
+# Variables for highlighting atoms and bonds based on user selection.
 var highlighted_atoms = []
 var highlighted_bonds = []
 var highlighted_connected_atoms = []
 var highlighted_connected_bonds = []
 var atom_buttons = []
 
-
+# A boolean to check if the control key is pressed, used for multi-selection.
 var ctrl_pressed = false
-# Called when the node enters the scene tree for the first time.
+
+# Initializes elements, connections, and rings on node entry, and connects signals for UI updates.
 func _ready():
 	await add_elements()
 	await add_connections()
@@ -40,8 +47,10 @@ func _ready():
 	Globals.modulate_highlight.emit()
 	_on_enter_colors()
 
+# Updates the UI based on the globally selected color.
 func _on_enter_colors():
 	var selected_button = null
+	# Selects the appropriate option button based on the globally selected color.
 	if Globals.selected_color == Globals.NEON_RED:
 		option_button.selected = 0
 	elif  Globals.selected_color == Globals.NEON_PURPLE:
@@ -53,34 +62,38 @@ func _on_enter_colors():
 	else:
 		option_button.selected = 2
 
+# Updates colors of back and option_button to reflect the globally selected color.
 func _on_update_colors():
 	back.add_theme_color_override("font_color", Globals.selected_color)
 	option_button.add_theme_color_override("font_color", Globals.selected_color)
 	
+	# Applies a new style to atom buttons based on the selected color.
 	var stylebox = generate_theme_stylebox()
 	for button in atom_buttons:
 		button.add_theme_stylebox_override("pressed", stylebox)
-	
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+# Handles the multi-select functionality based on user input.
 func _process(delta):
 	if Input.is_action_just_pressed("multi-select"):
 		ctrl_pressed = true
 	if Input.is_action_just_released("multi-select"):
 		ctrl_pressed = false
 
+# Checks if a string contains alphabetic characters.
 func contains_alpha_char(characters: String) -> bool:
 	for character in characters:
 		if is_alpha(character):
 			return true
 	return false
 
+# Determines if a character is an alphabetic letter.
 func is_alpha(character: String) -> bool:
 	if character.length() == 0:
 		return false
 	var code = character[0].to_ascii_buffer()[0]
 	return (code >= 'a'.to_ascii_buffer()[0] and code <= 'z'.to_ascii_buffer()[0]) or (code >= 'A'.to_ascii_buffer()[0] and code <= 'Z'.to_ascii_buffer()[0])
 
+# Generates buttons for elements from a SMILES array, enabling dynamic UI for chemical structure manipulation.
 func generate_smiles_array():
 	var base_path = ProjectSettings.globalize_path("res://")
 	var elements_file = FileAccess.open(base_path + "smiles.txt",FileAccess.READ)
@@ -89,6 +102,7 @@ func generate_smiles_array():
 	
 	var stylebox = generate_theme_stylebox()
 	
+	# Creates buttons for each element and adds them to the UI, disabling non-alphabetic ones.
 	for element in elements:
 		var new_button = Button.new()
 		new_button.add_theme_font_size_override("font_size", 50)
@@ -103,11 +117,13 @@ func generate_smiles_array():
 		else:
 			new_button.disabled = true
 
+# Generates a stylebox for theme customization based on the selected color.
 func generate_theme_stylebox():
 	var new_stylebox = StyleBoxFlat.new()
 	new_stylebox.bg_color = Color(Globals.selected_color, .5)
 	return new_stylebox
 
+# Handles node press events, updating the UI accordingly.
 func _on_node_pressed(atom_node):
 	var atom_idx = atoms.find(atom_node)
 	if atom_idx >= atom_buttons.size():
@@ -117,6 +133,7 @@ func _on_node_pressed(atom_node):
 		relative_button.button_pressed = true
 		update_buttons(relative_button)
 
+# Updates button states and highlights based on the control key state and button presses.
 func update_buttons(button_node):
 	if ctrl_pressed:
 		update_highlights()
@@ -127,6 +144,7 @@ func update_buttons(button_node):
 		button.button_pressed = false
 	update_highlights()
 
+# Updates which atoms and bonds are highlighted based on user selection.
 func update_highlights():
 	for atom in highlighted_atoms:
 		atom.turn_off_highlight.call_deferred()
@@ -149,6 +167,7 @@ func update_highlights():
 	if rings_checkbox.button_pressed:
 		highlight_rings()
 
+# Highlights connected atoms and bonds.
 func highlight_connected():
 	highlighted_connected_atoms.clear()
 	highlighted_connected_bonds.clear()
@@ -160,6 +179,7 @@ func highlight_connected():
 				atom.turn_on_highlight.call_deferred()
 				highlighted_connected_atoms.append(atom)
 
+# Highlights all atoms and bonds in rings that contain any of the highlighted atoms.
 func highlight_rings():
 	highlighted_connected_atoms.clear()
 	highlighted_connected_bonds.clear()
@@ -176,6 +196,7 @@ func highlight_rings():
 			bond.turn_on_highlight.call_deferred()
 			highlighted_connected_bonds.append(bond)
 
+# Clears highlights from connected atoms and bonds that are not currently selected.
 func clear_connected_highlights():
 	for atom in highlighted_connected_atoms:
 		if atom in highlighted_atoms:
@@ -188,6 +209,7 @@ func clear_connected_highlights():
 	highlighted_connected_atoms.clear()
 	highlighted_connected_bonds.clear()
 
+# Loads and adds elements to the structure based on a configuration file.
 func add_elements():
 	var base_path = ProjectSettings.globalize_path("res://")
 	var elements_file = FileAccess.open(base_path + "two_d_elements.txt",FileAccess.READ)
@@ -207,6 +229,7 @@ func add_elements():
 		atom_node.update_atom(symbol, charge)
 		atoms.append(atom_node)
 
+# Parses and adds connections between atoms to visualize chemical bonds.
 func add_connections():
 	var base_path = ProjectSettings.globalize_path("res://")
 	var elements_file = FileAccess.open(base_path + "two_d_connections.txt",FileAccess.READ)
@@ -240,7 +263,7 @@ func add_connections():
 		var new_bond = Bond.new(new_connection, atoms[first_index], atoms[second_index])
 		bonds.append(new_bond)
 
-
+# Determines the appropriate scene to instantiate based on the bond type.
 func get_connection(bond_type):
 	if bond_type == "1.0":
 		return SINGLE_BOND.instantiate()
@@ -252,6 +275,7 @@ func get_connection(bond_type):
 		return ARROMATIC_BOND.instantiate()
 	return SINGLE_BOND.instantiate()
 
+# Loads and adds rings based on a configuration file.
 func add_rings():
 	var base_path = ProjectSettings.globalize_path("res://")
 	var rings_file = FileAccess.open(base_path + "rings.txt",FileAccess.READ)
@@ -260,9 +284,11 @@ func add_rings():
 		var elements = ring.strip_edges().split(" ")
 		rings.append(elements)
 
+# Handler for button press actions, possibly to change scenes or trigger functions.
 func _on_button_pressed():
 	get_tree().change_scene_to_file("res://Scenes/Main Menu/python_runner.tscn")
 
+# Updates global color selection based on user choice from an option button.
 func _on_option_button_item_selected(index):
 	if index == 0:
 		Globals.selected_color = Globals.NEON_RED
@@ -276,14 +302,14 @@ func _on_option_button_item_selected(index):
 		Globals.selected_color = Globals.NEON_YELLOW
 	Globals.modulate_highlight.emit()
 
-
+# Toggles highlighting of connected atoms and bonds, ensuring exclusive selection with ring highlighting.
 func _on_neighbors_pressed():
 	clear_connected_highlights()
 	if neighbors_checkbox.button_pressed:
 		rings_checkbox.button_pressed = false
 		highlight_connected()
 
-
+# Toggles highlighting of atoms and bonds in rings, ensuring exclusive selection with neighbor highlighting.
 func _on_rings_pressed():
 	clear_connected_highlights()
 	if rings_checkbox.button_pressed:
