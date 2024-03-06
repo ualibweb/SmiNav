@@ -50,7 +50,6 @@ def smiles_to_files(smiles):
         largest_frag_atoms = max(frags, key=len)
         
 
-        print("Largest fragment atoms:", largest_frag_atoms)
         for atom in mol.GetAtoms():
             position = mol.GetConformer().GetAtomPosition(atom.GetIdx())
             atom_charge = atom.GetFormalCharge()
