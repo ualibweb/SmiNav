@@ -161,6 +161,12 @@ func update_highlights():
 		if bond.check_if_connected_atoms(highlighted_atoms):
 			bond.turn_on_highlight.call_deferred()
 			highlighted_bonds.append(bond)
+		var adjacent_hydrogen = bond.check_if_hydrogen_connected(highlighted_atoms)
+		if adjacent_hydrogen:
+			bond.turn_on_highlight.call_deferred()
+			highlighted_bonds.append(bond)
+			adjacent_hydrogen.turn_on_highlight.call_deferred()
+			highlighted_atoms.append(adjacent_hydrogen)
 	clear_connected_highlights()
 	if neighbors_checkbox.button_pressed:
 		highlight_connected()

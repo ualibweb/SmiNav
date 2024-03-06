@@ -128,3 +128,4 @@ If you prefer to manually set up a virtual environment within the SmiNav folder,
 1. In the 2D depictions, stereochemistry is not shown
 2. Currently only the atom Symbols are interactive in the SMILES string.
 3. Only explict hydrogens are shown in the depictions. Valences are not automatically filled with H (e.g., an alcohol functional group would show up as -O, and not -OH)
+4. Does not support individual explicit hydrogens in the SMILES string (e.g., [H] or [H][O][H]). However, explicit hydrogens are supported when attached to atoms within brackets (e.g., [CH4])

@@ -34,6 +34,13 @@ func check_if_contains_atoms(atoms: Array):
 		return true
 	return false
 
+func check_if_hydrogen_connected(atoms: Array):
+	if connected_atoms[0] in atoms and connected_atoms[1].label.text == "H":
+		return connected_atoms[1]
+	elif connected_atoms[1] in atoms and connected_atoms[0].label.text == "H":
+		return connected_atoms[0]
+	return null
+
 func turn_on_highlight():
 	if highlight_node != null:
 		highlight_node.show()
