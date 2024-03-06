@@ -43,26 +43,23 @@ def smiles_to_files(smiles):
     
     # Output elements and their positions in 3d space
     with open(elements_filename, 'w') as elements_file:
-        # CCC(=O)N.CC1=CC=CC=N1.C#C  
-        atom_index = 0
-        # get the number of separate fragments
-        num_frags = len(Chem.GetMolFrags(mol))
-        # Get largest fragment index
-        largest_frag = max(Chem.GetMolFrags(mol, asMols=True), key=lambda x: x.GetNumAtoms())
+        # C1=CN=C(N=C1)[NH2+]S(=[OH+])(=O)C2=CC=CC=C2N.[Ag+] 
 
-        # loop through the different mol fragments and offset the atoms by a distance of its frag index
-        for idx, frag in enumerate(Chem.GetMolFrags(mol, asMols=True)):
-            for atom in frag.GetAtoms():
-                position = frag.GetConformer().GetAtomPosition(atom.GetIdx())
-                # Get atom charges
-                atom_charge = atom.GetFormalCharge()
-                if frag.GetNumAtoms() != largest_frag.GetNumAtoms():
-                    elements_file.write(f"{atom.GetSymbol()} {atom_index} -1 -1 -1 {atom_charge}\n")
-                    non_existent_atoms.append(atom_index)
-                else:
-                    elements_file.write(f"{atom.GetSymbol()} {atom_index} {position.x} {position.y} {position.z} {atom_charge}\n")
-                atom_index += 1
+        # Get the largest fragment
+        frags = Chem.GetMolFrags(mol, asMols=False)
+        largest_frag_atoms = max(frags, key=len)
         
+
+        print("Largest fragment atoms:", largest_frag_atoms)
+        for atom in mol.GetAtoms():
+            position = mol.GetConformer().GetAtomPosition(atom.GetIdx())
+            atom_charge = atom.GetFormalCharge()
+            if atom.GetIdx() in largest_frag_atoms:
+                elements_file.write(f"{atom.GetSymbol()} {atom.GetIdx()} {position.x} {position.y} {position.z} {atom_charge}\n")
+            else:
+            # if the atom is not in the largest fragment, set its position to -1
+                elements_file.write(f"{atom.GetSymbol()} {atom.GetIdx()} -1 -1 -1 {atom_charge}\n")
+                non_existent_atoms.append(atom.GetIdx())
     
     # Output connections
     with open(connections_filename, 'w') as connections_file:
