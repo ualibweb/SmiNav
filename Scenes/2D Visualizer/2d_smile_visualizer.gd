@@ -180,7 +180,8 @@ func highlight_connected():
 				highlighted_connected_atoms.append(atom)
 	for atom in highlighted_connected_atoms:
 		var atom_idx = atoms.find(atom)
-		atom_buttons[atom_idx].button_pressed = true
+		if atom_idx < atom_buttons.size():
+			atom_buttons[atom_idx].button_pressed = true
 
 # Highlights all atoms and bonds in rings that contain any of the highlighted atoms.
 func highlight_rings():
@@ -200,7 +201,8 @@ func highlight_rings():
 			highlighted_connected_bonds.append(bond)
 	for atom in highlighted_connected_atoms:
 		var atom_idx = atoms.find(atom)
-		atom_buttons[atom_idx].button_pressed = true
+		if atom_idx < atom_buttons.size():
+			atom_buttons[atom_idx].button_pressed = true
 
 # Clears highlights from connected atoms and bonds that are not currently selected.
 func clear_connected_highlights():
@@ -209,7 +211,8 @@ func clear_connected_highlights():
 			continue
 		atom.turn_off_highlight()
 		var atom_idx = atoms.find(atom)
-		atom_buttons[atom_idx].button_pressed = false
+		if atom_idx < atom_buttons.size():
+			atom_buttons[atom_idx].button_pressed = false
 	for bond in highlighted_connected_bonds:
 		if bond in highlighted_bonds:
 			continue
