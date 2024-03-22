@@ -1,6 +1,7 @@
 import sys
 from rdkit import rdBase, Chem, Geometry
 from rdkit.Chem import AllChem, Draw
+import re
 print('RDKit version: ',rdBase.rdkitVersion)
 
 elements_filename = 'elements.txt'
@@ -14,7 +15,6 @@ def smi_tokenizer(smi):
     """
     Tokenize a SMILES molecule or reaction
     """
-    import re
     pattern =  "(\[[^\]]+]|Br?|Cl?|N|O|S|P|F|I|b|c|n|o|s|p|\(|\)|\.|=|#|-|\+|\\\\|\/|:|~|@|\?|>|\*|\$|\%[0-9]{2}|[0-9])"
     regex = re.compile(pattern)
     tokens = [token for token in regex.findall(smi)]
