@@ -19,6 +19,9 @@ const ARROMATIC_BOND_3D = preload("res://Scenes/Bonds/arromatic_bond_3d.tscn")
 # Preloading the font
 const COUR = preload("res://Fonts/cour.ttf")
 
+# Preload SMILES BUTTON
+const ELEMENT_BUTTON = preload("res://Utils/Element Button/element_button.tscn")
+
 # Variables to store the atoms, bonds, rings, and highlighted elements
 var atoms = []
 var bonds = []
@@ -106,16 +109,12 @@ func generate_smiles_array():
 	var elements_file = FileAccess.open(base_path + "smiles.txt",FileAccess.READ)
 	var elements_text = elements_file.get_as_text().strip_edges()
 	var elements = elements_text.split(" ")
-	var stylebox = generate_theme_stylebox()
+	
+	var element_index = 0
 	var element_idx = 0
 	for element in elements:
-		var new_button = Button.new()
-		new_button.add_theme_font_size_override("font_size", 50)
-		new_button.add_theme_stylebox_override("pressed", stylebox)
-		new_button.add_theme_font_override("font", COUR)
-		new_button.toggle_mode = true
-		new_button.text = str(element)
-		h_box_container.add_child(new_button)
+		var new_button = ELEMENT_BUTTON.instantiate()
+		new_button.element_name = str(element)
 		if contains_alpha_char(element) or element == "*":
 			if atoms[element_idx] is String:
 				new_button.disabled = true
@@ -123,9 +122,12 @@ func generate_smiles_array():
 			else:
 				atom_buttons.append(new_button)
 				new_button.pressed.connect(update_buttons.bind(new_button))
+				new_button.element_index = element_index
+				element_index += 1
 			element_idx += 1
 		else:
 			new_button.disabled = true
+		h_box_container.add_child(new_button)
 
 # Generates a stylebox for the selected color.
 func generate_theme_stylebox():
@@ -240,6 +242,18 @@ func clear_connected_highlights():
 	highlighted_connected_atoms.clear()
 	highlighted_connected_bonds.clear()
 
+func turn_on_index():
+	for atom_button in atom_buttons:
+		atom_button.turn_on_index()
+	for atom in atoms:
+		atom.turn_on_index()
+
+func turn_off_index():
+	for atom_button in atom_buttons:
+		atom_button.turn_off_index()
+	for atom in atoms:
+		atom.turn_off_index()
+
 # Adds the elements to the scene.
 # The elements are read from a text file and added to the scene.
 # The elements are added to the atoms array.
@@ -253,7 +267,7 @@ func add_elements():
 			continue
 		var split_data = element.split(" ", false)
 		var symbol = split_data[0]
-		var index = split_data[1]
+		var index = int(split_data[1])
 		var x_position = float(split_data[2]) * 1
 		var y_position = float(split_data[3]) * 1
 		var z_position = float(split_data[4]) * 1
@@ -265,7 +279,7 @@ func add_elements():
 		var atom_node = BASE_ATOM_3D.instantiate()
 		structure.add_child(atom_node)
 		atom_node.global_position = Vector3(x_position, y_position, z_position)
-		atom_node.update_atom(symbol, charge)
+		atom_node.update_atom(symbol, charge, index)
 		atoms.append(atom_node)
 
 # Adds the connections to the scene.
@@ -361,6 +375,12 @@ func _on_rings_pressed():
 	if rings_checkbox.button_pressed:
 		neighbors_checkbox.button_pressed = false
 		highlight_rings()
+
+func _on_index_toggle_toggled(toggled_on):
+	if toggled_on:
+		turn_on_index()
+	else:
+		turn_off_index()
 
 # Rotates the structure based on the mouse position.
 func _input(event):

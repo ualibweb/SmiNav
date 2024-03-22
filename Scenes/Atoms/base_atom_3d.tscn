@@ -14,16 +14,23 @@ rings = 12
 material = SubResource("StandardMaterial3D_kxjlh")
 script = ExtResource("1_snnk8")
 
-[node name="Label3D" type="Label3D" parent="."]
+[node name="Atom Symbol" type="Label3D" parent="."]
 transform = Transform3D(-1, 0, 1.60936e-07, 0, 1, 0, -1.60936e-07, 0, -1, 0, 0, -0.5)
 pixel_size = 0.01
 text = "CA"
 font = ExtResource("2_tl2cg")
 
-[node name="Label3D2" type="Label3D" parent="Label3D"]
+[node name="Atom Charge" type="Label3D" parent="Atom Symbol"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.15, 0)
 pixel_size = 0.01
 text = "+3"
+font = ExtResource("2_tl2cg")
+font_size = 24
+
+[node name="Atom Index" type="Label3D" parent="Atom Symbol"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, -0.2, 0)
+pixel_size = 0.01
+text = "0"
 font = ExtResource("2_tl2cg")
 font_size = 24
 

@@ -20,6 +20,7 @@ const BASE_ATOM = preload("res://Scenes/Atoms/base_atom.tscn")
 @onready var back = $Control/Back
 @onready var option_button = $Control/Options/HBoxContainer/OptionButton
 const COUR = preload("res://Fonts/cour.ttf")
+const ELEMENT_BUTTON = preload("res://Utils/Element Button/element_button.tscn")
 
 # Variables to store atoms, bonds, rings, and UI elements related to atoms.
 var atoms = []
@@ -100,22 +101,19 @@ func generate_smiles_array():
 	var elements_text = elements_file.get_as_text().strip_edges()
 	var elements = elements_text.split(" ")
 	
-	var stylebox = generate_theme_stylebox()
-	
+	var element_index = 0
 	# Creates buttons for each element and adds them to the UI, disabling non-alphabetic ones.
 	for element in elements:
-		var new_button = Button.new()
-		new_button.add_theme_font_size_override("font_size", 50)
-		new_button.add_theme_stylebox_override("pressed", stylebox)
-		new_button.toggle_mode = true
-		new_button.text = str(element)
-		new_button.add_theme_font_override("font", COUR)
-		h_box_container.add_child(new_button)
+		var new_button = ELEMENT_BUTTON.instantiate()
+		new_button.element_name = str(element)
 		if contains_alpha_char(element) or element == "*":
 			atom_buttons.append(new_button)
 			new_button.pressed.connect(update_buttons.bind(new_button))
+			new_button.element_index = element_index
+			element_index += 1
 		else:
 			new_button.disabled = true
+		h_box_container.add_child(new_button)
 
 # Generates a stylebox for theme customization based on the selected color.
 func generate_theme_stylebox():
@@ -226,6 +224,18 @@ func clear_connected_highlights():
 	highlighted_connected_atoms.clear()
 	highlighted_connected_bonds.clear()
 
+func turn_on_index():
+	for atom_button in atom_buttons:
+		atom_button.turn_on_index()
+	for atom in atoms:
+		atom.turn_on_index()
+
+func turn_off_index():
+	for atom_button in atom_buttons:
+		atom_button.turn_off_index()
+	for atom in atoms:
+		atom.turn_off_index()
+
 # Loads and adds elements to the structure based on a configuration file.
 func add_elements():
 	var base_path = ProjectSettings.globalize_path("res://")
@@ -243,7 +253,7 @@ func add_elements():
 		var atom_node = BASE_ATOM.instantiate()
 		structure.add_child(atom_node)
 		atom_node.global_position = Vector2(x_position, y_position)
-		atom_node.update_atom(symbol, charge)
+		atom_node.update_atom(symbol, charge, index)
 		atoms.append(atom_node)
 
 # Parses and adds connections between atoms to visualize chemical bonds.
@@ -332,3 +342,10 @@ func _on_rings_pressed():
 	if rings_checkbox.button_pressed:
 		neighbors_checkbox.button_pressed = false
 		highlight_rings()
+
+
+func _on_index_toggle_toggled(toggled_on):
+	if toggled_on:
+		turn_on_index()
+	else:
+		turn_off_index()

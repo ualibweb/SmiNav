@@ -1,8 +1,10 @@
 extends Node2D
 
-@onready var label = $Label
-@onready var label_2 = $Label/Label2
+@onready var atom_symbol = $"Atom Symbol"
+@onready var atom_charge = $"Atom Symbol/Atom Charge"
+@onready var atom_index = $"Atom Symbol/Atom Index"
 @onready var highlight = $Highlight
+
 
 # Colors
 const WHITE = Color8(255,255,255)
@@ -24,58 +26,60 @@ const PINK = Color8(255,192,203)
 
 func _ready():
 	highlight.hide()
+	atom_index.hide()
 	Globals.modulate_highlight.connect(_on_modulate_highlight)
 
 func _on_modulate_highlight():
 	highlight.modulate = Color(Globals.selected_color, .5)
 
-func update_atom(atom_type:String, charge: int):
-	label_2.visible = false
+func update_atom(atom_type:String, charge: int, index):
+	atom_charge.visible = false
+	atom_index.text = str(index)
 	if atom_type == "C":
-		label.text = ""
+		atom_symbol.text = ""
 		return
-	label.text = atom_type
+	atom_symbol.text = atom_type
 	atom_type = atom_type.capitalize().strip_edges()
 	# Color text
 	if atom_type in ["H"]:
-		label.add_theme_color_override("font_color", WHITE)
+		atom_symbol.add_theme_color_override("font_color", WHITE)
 	elif atom_type in ["N"]:
-		label.add_theme_color_override("font_color", BLUE)
+		atom_symbol.add_theme_color_override("font_color", BLUE)
 	elif atom_type in ["O"]:
-		label.add_theme_color_override("font_color", RED)
+		atom_symbol.add_theme_color_override("font_color", RED)
 	elif atom_type in ["F", "Cl"]:
-		label.add_theme_color_override("font_color", GREEN)
+		atom_symbol.add_theme_color_override("font_color", GREEN)
 	elif atom_type in ["Br"]:
-		label.add_theme_color_override("font_color", DARK_RED)
+		atom_symbol.add_theme_color_override("font_color", DARK_RED)
 	elif atom_type in ["I"]:
-		label.add_theme_color_override("font_color", DARK_VIOLET)
+		atom_symbol.add_theme_color_override("font_color", DARK_VIOLET)
 	elif atom_type in ["He", "Ne", "Ar", "Kr", "Xe"]:
-		label.add_theme_color_override("font_color", CYAN)
+		atom_symbol.add_theme_color_override("font_color", CYAN)
 	elif atom_type in ["P"]:
-		label.add_theme_color_override("font_color", ORANGE)
+		atom_symbol.add_theme_color_override("font_color", ORANGE)
 	elif atom_type in ["S"]:
-		label.add_theme_color_override("font_color", YELLOW)
+		atom_symbol.add_theme_color_override("font_color", YELLOW)
 	elif atom_type in "B":
-		label.add_theme_color_override("font_color", BEIGE)
+		atom_symbol.add_theme_color_override("font_color", BEIGE)
 	elif atom_type in ["Li", "Na", "K", "Rb", "Cs", "Fr"]:
-		label.add_theme_color_override("font_color", VIOLET)
+		atom_symbol.add_theme_color_override("font_color", VIOLET)
 	elif atom_type in ["Be", "Mg", "Ca", "Sr", "Ba", "Ra"]:
-		label.add_theme_color_override("font_color", DARK_GREEN)
+		atom_symbol.add_theme_color_override("font_color", DARK_GREEN)
 	elif atom_type in ["Ti"]:
-		label.add_theme_color_override("font_color", GRAY)
+		atom_symbol.add_theme_color_override("font_color", GRAY)
 	elif atom_type in ["Fe"]:
-		label.add_theme_color_override("font_color", DARK_ORANGE)
+		atom_symbol.add_theme_color_override("font_color", DARK_ORANGE)
 	else:
-		label.add_theme_color_override("font_color", PINK)
-	label_2.visible = true
+		atom_symbol.add_theme_color_override("font_color", PINK)
+	atom_charge.visible = true
 	if charge == 0:
-		label_2.visible = false
+		atom_charge.visible = false
 	elif charge == -1:
-		label_2.text = "-"
+		atom_charge.text = "-"
 	elif charge == 1:
-		label_2.text = "+"
+		atom_charge.text = "+"
 	else:
-		label_2.text = str(charge)
+		atom_charge.text = str(charge)
 
 func turn_on_highlight():
 	highlight.show()
@@ -87,3 +91,11 @@ func turn_off_highlight():
 func _on_static_body_2d_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.pressed == true:
 		Globals.node_clicked.emit(self)
+
+func turn_off_index():
+	if atom_index.text != "":
+		atom_index.hide()
+
+func turn_on_index():
+	if atom_index.text != "":
+		atom_index.show()

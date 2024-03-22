@@ -30,9 +30,9 @@ func check_if_contains_atoms(atoms: Array):
 	return false
 
 func check_if_hydrogen_connected(atoms: Array):
-	if connected_atoms[0] in atoms and connected_atoms[1].label.text == "H":
+	if connected_atoms[0] in atoms and connected_atoms[1].atom_symbol.text == "H":
 		return connected_atoms[1]
-	elif connected_atoms[1] in atoms and connected_atoms[0].label.text == "H":
+	elif connected_atoms[1] in atoms and connected_atoms[0].atom_symbol.text == "H":
 		return connected_atoms[0]
 	return null
 	

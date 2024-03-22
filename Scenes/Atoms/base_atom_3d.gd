@@ -1,8 +1,9 @@
 extends CSGSphere3D
 
-@onready var label = $Label3D
+@onready var atom_symbol = $"Atom Symbol"
+@onready var atom_charge = $"Atom Symbol/Atom Charge"
+@onready var atom_index = $"Atom Symbol/Atom Index"
 @onready var highlight = $Highlight
-@onready var label_3d_2 = $Label3D/Label3D2
 
 # Colors
 const WHITE = Color8(255,255,255)
@@ -27,6 +28,7 @@ var highlight_color = Color(Globals.NEON_GREEN, .5)
 
 func _ready():
 	highlight.hide()
+	atom_index.hide()
 	Globals.modulate_highlight.connect(_on_modulate_highlight)
 	Globals.camera_position.connect(_on_camera_position)
 	material = material.duplicate()
@@ -34,70 +36,71 @@ func _ready():
 func _on_modulate_highlight():
 	highlight.modulate = Color(Globals.selected_color, .1)
 
-func update_atom(atom_type:String, charge: int):
-	label_3d_2.visible = false
+func update_atom(atom_type:String, charge: int, index: int):
+	atom_charge.visible = false
+	atom_index.text = str(index)
 	var atom_material: Material = get_material()
 	if atom_type == "C":
-		label.text = ""
+		atom_symbol.text = ""
 		atom_material.albedo_color = WHITE
 		return
-	label.text = atom_type
+	atom_symbol.text = atom_type
 	atom_type = atom_type.capitalize().strip_edges()
 	# Color text
 	if atom_type in ["H"]:
-		label.modulate = WHITE
+		atom_symbol.modulate = WHITE
 		atom_material.albedo_color = WHITE
 	elif atom_type in ["N"]:
-		label.modulate = BLUE
+		atom_symbol.modulate = BLUE
 		atom_material.albedo_color = BLUE
 	elif atom_type in ["O"]:
-		label.modulate = RED
+		atom_symbol.modulate = RED
 		atom_material.albedo_color = RED
 	elif atom_type in ["F", "Cl"]:
-		label.modulate = GREEN
+		atom_symbol.modulate = GREEN
 		atom_material.albedo_color = GREEN
 	elif atom_type in ["Br"]:
-		label.modulate = DARK_RED
+		atom_symbol.modulate = DARK_RED
 		atom_material.albedo_color = DARK_RED
 	elif atom_type in ["I"]:
-		label.modulate = DARK_VIOLET
+		atom_symbol.modulate = DARK_VIOLET
 		atom_material.albedo_color = DARK_VIOLET
 	elif atom_type in ["He", "Ne", "Ar", "Kr", "Xe"]:
-		label.modulate = CYAN
+		atom_symbol.modulate = CYAN
 		atom_material.albedo_color = CYAN
 	elif atom_type in ["P"]:
-		label.modulate = ORANGE
+		atom_symbol.modulate = ORANGE
 		atom_material.albedo_color = ORANGE
 	elif atom_type in ["S"]:
-		label.modulate = YELLOW
+		atom_symbol.modulate = YELLOW
 		atom_material.albedo_color = YELLOW
 	elif atom_type in "B":
-		label.modulate = BEIGE
+		atom_symbol.modulate = BEIGE
 		atom_material.albedo_color = BEIGE
 	elif atom_type in ["Li", "Na", "K", "Rb", "Cs", "Fr"]:
-		label.modulate = VIOLET
+		atom_symbol.modulate = VIOLET
 		atom_material.albedo_color = VIOLET
 	elif atom_type in ["Be", "Mg", "Ca", "Sr", "Ba", "Ra"]:
-		label.modulate = DARK_GREEN
+		atom_symbol.modulate = DARK_GREEN
 		atom_material.albedo_color = DARK_GREEN
 	elif atom_type in ["Ti"]:
-		label.modulate = GRAY
+		atom_symbol.modulate = GRAY
 		atom_material.albedo_color = GRAY
 	elif atom_type in ["Fe"]:
-		label.modulate = DARK_ORANGE
+		atom_symbol.modulate = DARK_ORANGE
 		atom_material.albedo_color = DARK_ORANGE
 	else:
-		label.modulate = PINK
+		atom_symbol.modulate = PINK
 		atom_material.albedo_color = PINK
-	label_3d_2.visible = true
+	atom_charge.visible = true
 	if charge == 0:
-		label_3d_2.visible = false
+		atom_charge.visible = false
 	elif charge == -1:
-		label_3d_2.text = "-"
+		atom_charge.text = "-"
 	elif charge == 1:
-		label_3d_2.text = "+"
+		atom_charge.text = "+"
 	else:
-		label_3d_2.text = str(charge)
+		atom_charge.text = str(charge)
 
 func turn_on_highlight():
 	highlight.show()
@@ -112,3 +115,11 @@ func _on_camera_position(camera_pos: Vector3):
 func _on_static_body_3d_input_event(camera, event, position, normal, shape_idx):
 	if event is InputEventMouseButton and  event.button_index == 1 and event.pressed == true:
 		Globals.node_clicked.emit(self)
+
+func turn_off_index():
+	if atom_index.text != "":
+		atom_index.hide()
+
+func turn_on_index():
+	if atom_index.text != "":
+		atom_index.show()

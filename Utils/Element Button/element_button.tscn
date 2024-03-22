@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvn5whr4v3ox2"]
+
+[ext_resource type="FontFile" uid="uid://d4bw7aq2ggi5w" path="res://Fonts/cour.ttf" id="1_782np"]
+[ext_resource type="Script" path="res://Utils/Element Button/element_button.gd" id="1_i1ho4"]
+
+[node name="Element Button" type="Button"]
+offset_right = 38.0
+offset_bottom = 66.0
+theme_override_fonts/font = ExtResource("1_782np")
+theme_override_font_sizes/font_size = 50
+toggle_mode = true
+script = ExtResource("1_i1ho4")
+
+[node name="Element Index Text" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -11.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("1_782np")
