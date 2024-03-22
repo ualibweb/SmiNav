@@ -111,7 +111,7 @@ func generate_smiles_array():
 		new_button.text = str(element)
 		new_button.add_theme_font_override("font", COUR)
 		h_box_container.add_child(new_button)
-		if contains_alpha_char(element):
+		if contains_alpha_char(element) or element == "*":
 			atom_buttons.append(new_button)
 			new_button.pressed.connect(update_buttons.bind(new_button))
 		else:

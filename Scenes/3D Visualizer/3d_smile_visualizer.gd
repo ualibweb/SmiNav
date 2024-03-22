@@ -116,7 +116,7 @@ func generate_smiles_array():
 		new_button.toggle_mode = true
 		new_button.text = str(element)
 		h_box_container.add_child(new_button)
-		if contains_alpha_char(element):
+		if contains_alpha_char(element) or element == "*":
 			if atoms[element_idx] is String:
 				new_button.disabled = true
 				atom_buttons.append("")
