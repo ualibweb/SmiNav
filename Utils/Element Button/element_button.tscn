@@ -13,13 +13,14 @@ script = ExtResource("1_i1ho4")
 
 [node name="Element Index Text" type="Label" parent="."]
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -11.0
+offset_left = -5.5
 offset_top = -23.0
-grow_horizontal = 0
+offset_right = 5.5
+grow_horizontal = 2
 grow_vertical = 0
 theme_override_fonts/font = ExtResource("1_782np")

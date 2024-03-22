@@ -244,9 +244,15 @@ func clear_connected_highlights():
 
 func turn_on_index():
 	for atom_button in atom_buttons:
-		atom_button.turn_on_index()
+		if atom_button is String:
+			continue
+		else:
+			atom_button.turn_on_index()
 	for atom in atoms:
-		atom.turn_on_index()
+		if atom is String:
+			continue
+		else:
+			atom.turn_on_index()
 
 func turn_off_index():
 	for atom_button in atom_buttons:
