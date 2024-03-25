@@ -62,9 +62,12 @@ func _on_two_d_pressed():
 		output.text = "Enter a smiles"
 		return
 	if Globals.venv_exists:
-		_2d.disabled = true
-		await Globals.run_python_script("rdkit_script.py", [smiles_input.text])
-		get_tree().change_scene_to_file("res://Scenes/2D Visualizer/2d_smile_visualizer.tscn")
+		_2d.disabled = false
+		var ran = await Globals.run_python_script("rdkit_script.py", [smiles_input.text])
+		if ran is bool and ran == false:
+			output.text = "Invalid SMILES String"
+		else:
+			get_tree().change_scene_to_file("res://Scenes/2D Visualizer/2d_smile_visualizer.tscn")
 	else:
 		output.text = "Wait, Venv is not ready yet"
 
@@ -78,7 +81,11 @@ func _on_three_d_pressed():
 		# Check file for elements
 		#var base_path = ProjectSettings.globalize_path("res://")
 		#var elements_file = FileAccess.open(base_path + "elements.txt",FileAccess.READ)
-		get_tree().change_scene_to_file("res://Scenes/3D Visualizer/3d_smile_visualizer.tscn")
+		var ran = await Globals.run_python_script("rdkit_script.py", [smiles_input.text])
+		if ran is bool and ran == false:
+			output.text = "Invalid SMILES String"
+		else:
+			get_tree().change_scene_to_file("res://Scenes/3D Visualizer/3d_smile_visualizer.tscn")
 	else:
 		output.text = "Wait, Venv is not ready yet"
 

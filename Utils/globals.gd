@@ -57,4 +57,5 @@ func run_python_script(python_script_path, arguments):
 	else:
 		print("Failed to execute command.")
 		print(error)
+		return false
 	return output
