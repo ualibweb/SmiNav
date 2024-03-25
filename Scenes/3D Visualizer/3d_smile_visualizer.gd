@@ -388,8 +388,6 @@ func update_fragments(toggled_on: bool, button_node, branches_array: Array):
 	else:
 		for button_index in branches_array:
 			atom_buttons[button_index].button_pressed = false
-		for button in branch_buttons:
-			button.button_pressed = false
 	update_highlights()
 
 # Returns the connection based on the bond type.

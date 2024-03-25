@@ -347,8 +347,6 @@ func update_fragments(toggled_on: bool, button_node, branches_array: Array):
 	else:
 		for button_index in branches_array:
 			atom_buttons[button_index].button_pressed = false
-		for button in branch_buttons:
-			button.button_pressed = false
 	update_highlights()
 
 # Handler for button press actions, possibly to change scenes or trigger functions.
