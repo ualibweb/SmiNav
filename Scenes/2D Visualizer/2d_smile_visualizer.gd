@@ -50,7 +50,6 @@ func _ready():
 
 # Updates the UI based on the globally selected color.
 func _on_enter_colors():
-	var selected_button = null
 	# Selects the appropriate option button based on the globally selected color.
 	if Globals.selected_color == Globals.NEON_RED:
 		option_button.selected = 0
@@ -74,7 +73,7 @@ func _on_update_colors():
 		button.add_theme_stylebox_override("pressed", stylebox)
 
 # Handles the multi-select functionality based on user input.
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_just_pressed("multi-select"):
 		ctrl_pressed = true
 	if Input.is_action_just_released("multi-select"):
@@ -277,12 +276,12 @@ func add_connections():
 		var height = distance
 		var new_connection = get_connection(bond_type)
 		structure.add_child(new_connection)
-		if atoms[first_index].get_node("Label") and atoms[first_index].get_node("Label").text != "":
+		if atoms[first_index].get_node("Atom Symbol") and atoms[first_index].get_node("Atom Symbol").text != "":
 			new_connection.global_position = first_element_position + direction * .2
 			height -= distance * .2
 		else:
 			new_connection.global_position = first_element_position # + direction * .2
-		if atoms[second_index].get_node("Label") and atoms[second_index].get_node("Label").text != "":
+		if atoms[second_index].get_node("Atom Symbol") and atoms[second_index].get_node("Atom Symbol").text != "":
 			height -= distance * .2
 		new_connection.scale.x = height
 		new_connection.look_at(second_element_position)

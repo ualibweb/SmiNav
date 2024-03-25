@@ -53,7 +53,6 @@ func _ready():
 
 # Sets the option button to the selected color
 func _on_enter_colors():
-	var selected_button = null
 	if Globals.selected_color == Globals.NEON_RED:
 		option_button.selected = 0
 	elif  Globals.selected_color == Globals.NEON_PURPLE:
@@ -78,7 +77,7 @@ func _on_update_colors():
 	
 
 # Emits the camera position and handles multi-select input.
-func _process(delta):
+func _process(_delta):
 	Globals.camera_position.emit($Camera3D.global_position)
 	if Input.is_action_just_pressed("multi-select"):
 		ctrl_pressed = true
@@ -309,7 +308,7 @@ func add_connections():
 		var direction = second_element_position - first_element_position
 		var distance = direction.length()
 		
-		var height = distance
+		#var height = distance
 		
 		var normalized_direction = direction.normalized()
 		var connection_up_vector = Vector3(0, 1, 0)

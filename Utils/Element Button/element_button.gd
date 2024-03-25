@@ -11,12 +11,6 @@ func _ready():
 	self.element_index_text.text = str(element_index)
 	turn_off_index()
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
-
 func generate_theme_stylebox():
 	var new_stylebox = StyleBoxFlat.new()
 	new_stylebox.bg_color = Color(Globals.selected_color, .5)

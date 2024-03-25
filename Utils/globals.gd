@@ -23,10 +23,6 @@ var venv_exists = false
 func _ready():
 	setup_venv()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func setup_venv():
 	if check_if_venv_exists():
 		print("Virtual environment already exists.")

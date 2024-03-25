@@ -112,7 +112,7 @@ func _on_camera_position(camera_pos: Vector3):
 	look_at(camera_pos)
 
 
-func _on_static_body_3d_input_event(camera, event, position, normal, shape_idx):
+func _on_static_body_3d_input_event(_camera, event, _position, _normal, _shape_idx):
 	if event is InputEventMouseButton and  event.button_index == 1 and event.pressed == true:
 		Globals.node_clicked.emit(self)
 
