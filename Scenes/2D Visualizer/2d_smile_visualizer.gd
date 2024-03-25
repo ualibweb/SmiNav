@@ -18,7 +18,8 @@ const BASE_ATOM = preload("res://Scenes/Atoms/base_atom.tscn")
 @onready var viewport = get_viewport_rect().size
 
 # UI elements for user interaction.
-@onready var back = $Control/Back
+@onready var _3d_button = $"Control/VBoxContainer/3D Button"
+@onready var back = $Control/VBoxContainer/Back
 @onready var option_button = $Control/Options/HBoxContainer/OptionButton
 const COUR = preload("res://Fonts/cour.ttf")
 const ELEMENT_BUTTON = preload("res://Utils/Element Button/element_button.tscn")
@@ -69,6 +70,7 @@ func _on_enter_colors():
 # Updates colors of back and option_button to reflect the globally selected color.
 func _on_update_colors():
 	back.add_theme_color_override("font_color", Globals.selected_color)
+	_3d_button.add_theme_color_override("font_color", Globals.selected_color)
 	option_button.add_theme_color_override("font_color", Globals.selected_color)
 	
 	# Applies a new style to atom buttons based on the selected color.
@@ -322,7 +324,6 @@ func add_branches():
 	var branches_text = branches_file.get_as_text().strip_edges()
 	var branches = branches_text.split("\n")
 	
-	var branch_index = 0
 	for branch in branches:
 		var new_button = BRANCH_BUTTON.instantiate()
 		var segments = branch.split("\t")
@@ -349,9 +350,7 @@ func update_fragments(toggled_on: bool, button_node, branches_array: Array):
 			atom_buttons[button_index].button_pressed = false
 	update_highlights()
 
-# Handler for button press actions, possibly to change scenes or trigger functions.
-func _on_button_pressed():
-	get_tree().change_scene_to_file("res://Scenes/Main Menu/python_runner.tscn")
+
 
 # Updates global color selection based on user choice from an option button.
 func _on_option_button_item_selected(index):
@@ -387,3 +386,12 @@ func _on_index_toggle_toggled(toggled_on):
 		turn_on_index()
 	else:
 		turn_off_index()
+
+
+func _on_d_button_pressed():
+	get_tree().change_scene_to_file("res://Scenes/3D Visualizer/3d_smile_visualizer.tscn")
+
+
+# Handler for button press actions, possibly to change scenes or trigger functions.
+func _on_back_pressed():
+	get_tree().change_scene_to_file("res://Scenes/Main Menu/python_runner.tscn")

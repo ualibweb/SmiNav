@@ -6,7 +6,8 @@ extends Node3D
 @onready var v_box_container = $"Control/Branches Container/ScrollContainer/VBoxContainer"
 @onready var neighbors_checkbox = $Control/Options/Neighbors
 @onready var rings_checkbox = $Control/Options/Rings
-@onready var back = $Control/Back
+@onready var back = $Control/VBoxContainer/Back
+@onready var _2d_button = $"Control/VBoxContainer/2D Button"
 @onready var option_button = $Control/Options/HBoxContainer/OptionButton
 @onready var fragment_text = $"Control/SMILES Container/Fragment_text"
 
@@ -71,6 +72,7 @@ func _on_enter_colors():
 # Applies the selected color to the UI elements
 func _on_update_colors():
 	back.add_theme_color_override("font_color", Globals.selected_color)
+	_2d_button.add_theme_color_override("font_color", Globals.selected_color)
 	option_button.add_theme_color_override("font_color", Globals.selected_color)
 	
 	var stylebox = generate_theme_stylebox()
@@ -361,7 +363,6 @@ func add_branches():
 	var branches_text = branches_file.get_as_text().strip_edges()
 	var branches = branches_text.split("\n")
 	
-	var branch_index = 0
 	for branch in branches:
 		var new_button = BRANCH_BUTTON.instantiate()
 		var segments = branch.split("\t")
@@ -441,3 +442,7 @@ func _input(event):
 		var mouse_position = event.relative
 		structure.rotate_x(.01 * mouse_position.y)
 		structure.rotate_y(.01 * mouse_position.x)
+
+
+func _on_d_button_pressed():
+	get_tree().change_scene_to_file("res://Scenes/2D Visualizer/2d_smile_visualizer.tscn")

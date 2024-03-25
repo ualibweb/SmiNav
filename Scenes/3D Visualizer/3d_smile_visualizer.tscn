@@ -213,8 +213,7 @@ theme_override_constants/check_v_offset = 2
 theme_override_fonts/font = ExtResource("2_73ak5")
 text = "Show SMILES Index"
 
-[node name="Back" type="Button" parent="Control"]
-custom_minimum_size = Vector2(100, 50)
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -227,6 +226,23 @@ offset_right = -30.0
 offset_bottom = -30.0
 grow_horizontal = 0
 grow_vertical = 0
+
+[node name="2D Button" type="Button" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0588235, 1, 0.313726, 1)
+theme_override_fonts/font = ExtResource("2_73ak5")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_d23yw")
+theme_override_styles/hover = SubResource("StyleBoxFlat_d23yw")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_d23yw")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_d23yw")
+theme_override_styles/focus = SubResource("StyleBoxFlat_d23yw")
+text = "View 2D"
+
+[node name="Back" type="Button" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
 theme_override_colors/font_color = Color(0.0588235, 1, 0.313726, 1)
 theme_override_fonts/font = ExtResource("2_73ak5")
 theme_override_font_sizes/font_size = 30
@@ -241,4 +257,5 @@ text = "Go Back"
 [connection signal="pressed" from="Control/Options/Neighbors" to="." method="_on_neighbors_pressed"]
 [connection signal="pressed" from="Control/Options/Rings" to="." method="_on_rings_pressed"]
 [connection signal="toggled" from="Control/Options/Index Toggle" to="." method="_on_index_toggle_toggled"]
-[connection signal="pressed" from="Control/Back" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/2D Button" to="." method="_on_d_button_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/Back" to="." method="_on_button_pressed"]
