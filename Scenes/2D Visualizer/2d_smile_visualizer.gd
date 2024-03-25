@@ -323,25 +323,23 @@ func add_branches():
 	var branches = branches_text.split("\n")
 	
 	var branch_index = 0
-	# Creates buttons for each branch and adds them to the UI, disabling non-alphabetic ones.
 	for branch in branches:
 		var new_button = BRANCH_BUTTON.instantiate()
 		var segments = branch.split("\t")
 		var smiles_string = segments[0]
 		var element_array = str_to_var(segments[-1])
 		new_button.text = str(smiles_string)
-		branch_buttons.append(new_button)
 		new_button.toggled.connect(update_fragments.bind(new_button, element_array))
+		branch_buttons.append(new_button)
 		v_box_container.add_child(new_button)
 
 func update_fragments(toggled_on: bool, button_node, branches_array: Array):
 	if toggled_on:
 		for button in atom_buttons:
-			if button == button_node:
-				continue
 			button.button_pressed = false
 		for button in branch_buttons:
 			if button == button_node:
+				button.button_pressed = true
 				continue
 			button.button_pressed = false
 		for button_index in branches_array:
