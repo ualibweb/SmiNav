@@ -9,6 +9,34 @@ connections_filename = 'connections.txt'
 alt_elements_filename = 'two_d_elements.txt'
 alt_connections_filename = 'two_d_connections.txt'
 rings_filename = 'rings.txt'
+branches_filename = 'branches.txt'
+
+# Code from https://hg.sr.ht/~dalke/smiview
+_smiles_lexer = re.compile(r"""
+(?P<atom>   # These will be processed by 'tokenize_atom'
+  \*|
+  Cl|Br|[cnospBCNOFPSI]|  # organic subset
+  \[[^]]+\]               # bracket atom
+) |
+(?P<bond>
+  [=#$/\\:-]
+) |
+(?P<closure>
+  [0-9]|          # single digit
+  %[0-9][0-9]|    # two digits
+  %\([0-9]+\)     # more than two digits
+) |
+(?P<open_branch>
+  \(
+) |
+(?P<close_branch>
+  \)
+) |
+(?P<dot>
+  \.
+)
+""", re.X).match
+
 
 # Code from https://github.com/pschwllr/MolecularTransformer
 def smi_tokenizer(smi):
@@ -43,7 +71,7 @@ def smiles_to_files(smiles):
     
     # Output elements and their positions in 3d space
     with open(elements_filename, 'w') as elements_file:
-        # C1=CN=C(N=C1)[NH2+]S(=[OH+])(=O)C2=CC=CC=C2N.[Ag+] 
+        # C1=CN=C(N=C1)[NH2+]S(=[OH+])(=O)C2=CC=CC=C2N.[Ag+]
 
         # Get the largest fragment
         frags = Chem.GetMolFrags(mol, asMols=False)
@@ -94,6 +122,49 @@ def smiles_to_files(smiles):
     with open(rings_filename, 'w') as rings_file:
         for ring in mol.GetRingInfo().AtomRings():
             rings_file.write(' '.join(map(str, ring)) + '\n')
+
+    # Output the branches
+    with open(branches_filename, 'w') as branches_file:
+        branches = []
+        pos = 0
+        atom_index = 0
+        final_branches = []
+        while pos < len(smiles):
+            match = _smiles_lexer(smiles, pos)
+            if not match:
+                raise ValueError("Invalid SMILES string")
+            results = match.groupdict()
+            if results['open_branch']:
+                branches.append({
+                    "smiles": "",
+                    "atom_indices": [],
+                })
+                for branch in branches:
+                    branch["smiles"] += results["open_branch"]
+            elif results['close_branch']:
+                for branch in branches:
+                    branch["smiles"] += results["close_branch"]
+                most_recent_branch = branches.pop()
+                if most_recent_branch:
+                    final_branches.append(most_recent_branch)
+            elif results['atom']:
+                for branch in branches:
+                    branch["smiles"] += results["atom"]
+                    branch["atom_indices"].append(atom_index)
+                atom_index += 1
+            elif results['bond']:
+                for branch in branches:
+                    branch["smiles"] += results["bond"]
+            elif results['closure']:
+                for branch in branches:
+                    branch["smiles"] += results["closure"]
+            elif results['dot']:
+                for branch in branches:
+                    branch["smiles"] += results["dot"]
+            pos = match.end()
+        for branch in final_branches:
+            branches_file.write(f"{branch['smiles']}\t{branch['atom_indices']}\n")
+
 
 if __name__ == "__main__":
     args = sys.argv[1:]

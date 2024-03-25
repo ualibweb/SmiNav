@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://s2awnjpvpn11"]
+
+[ext_resource type="FontFile" uid="uid://d4bw7aq2ggi5w" path="res://Fonts/cour.ttf" id="1_njfn7"]
+
+[node name="Branch Button" type="CheckBox"]
+custom_minimum_size = Vector2(275, 0)
+offset_right = 24.0
+offset_bottom = 24.0
+theme_override_fonts/font = ExtResource("1_njfn7")
+theme_override_font_sizes/font_size = 25
+alignment = 2
+text_overrun_behavior = 1

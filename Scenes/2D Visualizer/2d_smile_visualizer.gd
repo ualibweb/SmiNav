@@ -10,6 +10,7 @@ const BASE_ATOM = preload("res://Scenes/Atoms/base_atom.tscn")
 # Node references using 'onready' to ensure they are initialized when the script is ready.
 @onready var structure = $Structure
 @onready var h_box_container = $"Control/SMILES Container/ScrollContainer/HBoxContainer"
+@onready var v_box_container = $"Control/Branches Container/ScrollContainer/VBoxContainer"
 @onready var neighbors_checkbox = $Control/Options/Neighbors
 @onready var rings_checkbox = $Control/Options/Rings
 
@@ -21,6 +22,7 @@ const BASE_ATOM = preload("res://Scenes/Atoms/base_atom.tscn")
 @onready var option_button = $Control/Options/HBoxContainer/OptionButton
 const COUR = preload("res://Fonts/cour.ttf")
 const ELEMENT_BUTTON = preload("res://Utils/Element Button/element_button.tscn")
+const BRANCH_BUTTON = preload("res://Utils/Branches Button/branch_button.tscn")
 
 # Variables to store atoms, bonds, rings, and UI elements related to atoms.
 var atoms = []
@@ -33,6 +35,7 @@ var highlighted_bonds = []
 var highlighted_connected_atoms = []
 var highlighted_connected_bonds = []
 var atom_buttons = []
+var branch_buttons = []
 
 # A boolean to check if the control key is pressed, used for multi-selection.
 var ctrl_pressed = false
@@ -42,6 +45,7 @@ func _ready():
 	await add_elements()
 	await add_connections()
 	await add_rings()
+	await add_branches()
 	await generate_smiles_array()
 	Globals.modulate_highlight.connect(_on_update_colors)
 	Globals.node_clicked.connect(_on_node_pressed)
@@ -132,6 +136,8 @@ func _on_node_pressed(atom_node):
 
 # Updates button states and highlights based on the control key state and button presses.
 func update_buttons(button_node):
+	for button in branch_buttons:
+		button.button_pressed = false
 	if ctrl_pressed:
 		update_highlights()
 		return
@@ -309,6 +315,43 @@ func add_rings():
 	for ring in rings_data:
 		var elements = ring.strip_edges().split(" ")
 		rings.append(elements)
+
+func add_branches():
+	var base_path = ProjectSettings.globalize_path("res://")
+	var branches_file = FileAccess.open(base_path + "branches.txt",FileAccess.READ)
+	var branches_text = branches_file.get_as_text().strip_edges()
+	var branches = branches_text.split("\n")
+	
+	var branch_index = 0
+	# Creates buttons for each branch and adds them to the UI, disabling non-alphabetic ones.
+	for branch in branches:
+		var new_button = BRANCH_BUTTON.instantiate()
+		var segments = branch.split("\t")
+		var smiles_string = segments[0]
+		var element_array = str_to_var(segments[-1])
+		new_button.text = str(smiles_string)
+		branch_buttons.append(new_button)
+		new_button.toggled.connect(update_fragments.bind(new_button, element_array))
+		v_box_container.add_child(new_button)
+
+func update_fragments(toggled_on: bool, button_node, branches_array: Array):
+	if toggled_on:
+		for button in atom_buttons:
+			if button == button_node:
+				continue
+			button.button_pressed = false
+		for button in branch_buttons:
+			if button == button_node:
+				continue
+			button.button_pressed = false
+		for button_index in branches_array:
+			atom_buttons[button_index].button_pressed = true
+	else:
+		for button_index in branches_array:
+			atom_buttons[button_index].button_pressed = false
+		for button in branch_buttons:
+			button.button_pressed = false
+	update_highlights()
 
 # Handler for button press actions, possibly to change scenes or trigger functions.
 func _on_button_pressed():
