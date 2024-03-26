@@ -14,6 +14,7 @@ config/name="SmiNav"
 config/version="1.0"
 run/main_scene="res://Scenes/Main Menu/python_runner.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
+boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/image="res://sminav_logo.png"
 config/icon="res://sminav_logo.png"
 

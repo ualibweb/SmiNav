@@ -11,6 +11,7 @@ alt_connections_filename = 'two_d_connections.txt'
 rings_filename = 'rings.txt'
 branches_filename = 'branches.txt'
 
+# Thanks to Andrew Dalke for pointing this out for us
 # Code from https://hg.sr.ht/~dalke/smiview
 _smiles_lexer = re.compile(r"""
 (?P<atom>   # These will be processed by 'tokenize_atom'
@@ -49,12 +50,27 @@ def smi_tokenizer(smi):
     assert smi == ''.join(tokens)
     return ' '.join(tokens)
 
+def check_if_smiles_contains_aromatic_atoms(smi):
+    """
+    Check if a SMILES string contains aromatic atoms
+    """
+    pattern =  "b|c|n|o|p|s|se|as"
+    regex = re.compile(pattern)
+    tokens = [token for token in regex.findall(smi)]
+    if len(tokens) > 0:
+        return True
+    return False
+
 
 def smiles_to_files(smiles):
     mol = Chem.MolFromSmiles(smiles)
     if not mol:
         raise ValueError("Invalid SMILES string")
     mol = Chem.rdmolops.AddHs(mol, explicitOnly = True)
+
+    if not check_if_smiles_contains_aromatic_atoms(smiles):
+        Chem.Kekulize(mol)
+
     
     AllChem.EmbedMolecule(mol)
 
