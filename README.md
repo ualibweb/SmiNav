@@ -3,9 +3,17 @@
 
 SmiNav (SMILES Navigator) is a GUI visualizer for parts of the SMILES syntax (atoms, neighbors, and rings). It was inspired by Andrew Dalke's [smiview](https://hg.sr.ht/~dalke/smiview). It uses the [RDKit](https://www.rdkit.org/) library in Python to parse the SMILES string and return mol coordinates and properties that are then used to create a 2D or 3D visualization of the molecule. The visualization is done using the [Godot game engine](https://godotengine.org/).
 
-To use SmiNav, input a SMILES string, then click on an atom in the string. The corresponding atom in the depiction will then get highlighted. The reverse works as well; that is, click on an atom in the depiction and the corresponding atom in the SMILES string will get highlighted.
+To use SmiNav, input a SMILES string, then click the visualization dimension you wish to view. Upon clicking on an atom in the string, the corresponding atom in the depiction will then get highlighted. The reverse works as well; that is, click on an atom in the depiction and the corresponding atom in the SMILES string will get highlighted.
 
 We did this for fun and to learn how to create interfaces in Godot. Any feedback and bug reports are very much welcome.
+
+## Features
+* 2D and 3D visualization of SMILES strings
+* Interactive highlighting of atoms in the SMILES string and depiction
+* Atom properties (e.g., charge, SMILES Index) are shown in the SMILES string and depiction
+* Ring properties (e.g., aromaticity) and ring closures are shown in the SMILES string and depiction
+* Branches of the SMILES string are shown in the depiction
+* Highlighting of explicit hydrogens in the SMILES string and depiction
 
 ## Main Screen
 
