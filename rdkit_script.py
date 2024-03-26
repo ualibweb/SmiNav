@@ -39,14 +39,18 @@ _smiles_lexer = re.compile(r"""
 """, re.X).match
 
 
-# Code from https://github.com/pschwllr/MolecularTransformer
 def smi_tokenizer(smi):
     """
     Tokenize a SMILES molecule or reaction
     """
-    pattern =  "(\[[^\]]+]|Br?|Cl?|N|O|S|P|F|I|b|c|n|o|s|p|\(|\)|\.|=|#|-|\+|\\\\|\/|:|~|@|\?|>|\*|\$|\%[0-9]{2}|[0-9])"
-    regex = re.compile(pattern)
-    tokens = [token for token in regex.findall(smi)]
+    tokens = []
+    pos = 0
+    while pos < len(smi):
+        match = _smiles_lexer(smi, pos)
+        if not match:
+            raise ValueError("Invalid SMILES string")
+        pos = match.end()
+        tokens.append(match.group())
     assert smi == ''.join(tokens)
     return ' '.join(tokens)
 
