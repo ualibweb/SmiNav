@@ -21,7 +21,7 @@ albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_bfiiu"]
 material = SubResource("StandardMaterial3D_6ewh1")
-size = Vector2(100, 100)
+size = Vector2(100000, 100000)
 orientation = 2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d23yw"]

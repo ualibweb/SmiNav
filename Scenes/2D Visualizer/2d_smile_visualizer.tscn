@@ -14,22 +14,19 @@ border_color = Color(1, 1, 1, 1)
 [node name="2D SMILE Visualizer" type="Node2D"]
 script = ExtResource("1_8mkie")
 
-[node name="Control" type="Control" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
 custom_minimum_size = Vector2(1280, 720)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -640.0
-offset_top = -360.0
-offset_right = 640.0
-offset_bottom = 360.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
-metadata/_edit_lock_ = true
 
-[node name="ColorRect" type="ColorRect" parent="Control"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control"]
 z_index = -10
 z_as_relative = false
 layout_mode = 1
@@ -42,7 +39,7 @@ mouse_filter = 1
 color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
 
-[node name="SMILES Container" type="VBoxContainer" parent="Control"]
+[node name="SMILES Container" type="VBoxContainer" parent="CanvasLayer/Control"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -53,20 +50,20 @@ offset_bottom = 117.0
 grow_horizontal = 2
 alignment = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Control/SMILES Container"]
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Control/SMILES Container"]
 custom_minimum_size = Vector2(700, 90)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/SMILES Container/ScrollContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/SMILES Container/ScrollContainer"]
 custom_minimum_size = Vector2(700, 90)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 alignment = 1
 
-[node name="Label" type="Label" parent="Control/SMILES Container"]
+[node name="Label" type="Label" parent="CanvasLayer/Control/SMILES Container"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_165ru")
@@ -74,7 +71,7 @@ text = "Hold Ctrl To Multi-Select"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Branches Container" type="VBoxContainer" parent="Control"]
+[node name="Branches Container" type="VBoxContainer" parent="CanvasLayer/Control"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -83,7 +80,7 @@ offset_left = -250.0
 offset_bottom = 150.0
 grow_horizontal = 0
 
-[node name="Label" type="Label" parent="Control/Branches Container"]
+[node name="Label" type="Label" parent="CanvasLayer/Control/Branches Container"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_165ru")
@@ -92,14 +89,14 @@ text = "Branches "
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Control/Branches Container"]
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Control/Branches Container"]
 custom_minimum_size = Vector2(275, 150)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/Branches Container/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Branches Container/ScrollContainer"]
 layout_mode = 2
 
-[node name="Options" type="VBoxContainer" parent="Control"]
+[node name="Options" type="VBoxContainer" parent="CanvasLayer/Control"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -110,16 +107,16 @@ offset_right = 212.0
 offset_bottom = -30.0
 grow_vertical = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/Options"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/Options"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Control/Options/HBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/Control/Options/HBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_165ru")
 text = "Select Color: "
 
-[node name="OptionButton" type="OptionButton" parent="Control/Options/HBoxContainer"]
+[node name="OptionButton" type="OptionButton" parent="CanvasLayer/Control/Options/HBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.0588235, 1, 0.192157, 1)
 theme_override_fonts/font = ExtResource("2_165ru")
@@ -135,7 +132,7 @@ popup/item_2/id = 2
 popup/item_3/text = "Yellow"
 popup/item_3/id = 3
 
-[node name="Neighbors" type="CheckBox" parent="Control/Options"]
+[node name="Neighbors" type="CheckBox" parent="CanvasLayer/Control/Options"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0.494118, 0.494118, 0.494118, 1)
@@ -149,7 +146,7 @@ theme_override_constants/check_v_offset = 2
 theme_override_fonts/font = ExtResource("2_165ru")
 text = "Highlight Neighbors"
 
-[node name="Rings" type="CheckBox" parent="Control/Options"]
+[node name="Rings" type="CheckBox" parent="CanvasLayer/Control/Options"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0.494118, 0.494118, 0.494118, 1)
@@ -163,7 +160,7 @@ theme_override_constants/check_v_offset = 2
 theme_override_fonts/font = ExtResource("2_165ru")
 text = "Show Containing Ring(s)"
 
-[node name="Index Toggle" type="CheckBox" parent="Control/Options"]
+[node name="Index Toggle" type="CheckBox" parent="CanvasLayer/Control/Options"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0.494118, 0.494118, 0.494118, 1)
@@ -177,7 +174,7 @@ theme_override_constants/check_v_offset = 2
 theme_override_fonts/font = ExtResource("2_165ru")
 text = "Show SMILES Index"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -191,7 +188,7 @@ offset_bottom = -30.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="3D Button" type="Button" parent="Control/VBoxContainer"]
+[node name="3D Button" type="Button" parent="CanvasLayer/Control/VBoxContainer"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.0588235, 1, 0.313726, 1)
@@ -204,7 +201,7 @@ theme_override_styles/disabled = SubResource("StyleBoxFlat_hb4i8")
 theme_override_styles/focus = SubResource("StyleBoxFlat_hb4i8")
 text = "View 3D"
 
-[node name="Back" type="Button" parent="Control/VBoxContainer"]
+[node name="Back" type="Button" parent="CanvasLayer/Control/VBoxContainer"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.0588235, 1, 0.313726, 1)
@@ -222,9 +219,9 @@ text = "Go Back"
 [node name="Camera2D" type="Camera2D" parent="."]
 metadata/_edit_lock_ = true
 
-[connection signal="item_selected" from="Control/Options/HBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]
-[connection signal="pressed" from="Control/Options/Neighbors" to="." method="_on_neighbors_pressed"]
-[connection signal="pressed" from="Control/Options/Rings" to="." method="_on_rings_pressed"]
-[connection signal="toggled" from="Control/Options/Index Toggle" to="." method="_on_index_toggle_toggled"]
-[connection signal="pressed" from="Control/VBoxContainer/3D Button" to="." method="_on_d_button_pressed"]
-[connection signal="pressed" from="Control/VBoxContainer/Back" to="." method="_on_back_pressed"]
+[connection signal="item_selected" from="CanvasLayer/Control/Options/HBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="pressed" from="CanvasLayer/Control/Options/Neighbors" to="." method="_on_neighbors_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Options/Rings" to="." method="_on_rings_pressed"]
+[connection signal="toggled" from="CanvasLayer/Control/Options/Index Toggle" to="." method="_on_index_toggle_toggled"]
+[connection signal="pressed" from="CanvasLayer/Control/VBoxContainer/3D Button" to="." method="_on_d_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/VBoxContainer/Back" to="." method="_on_back_pressed"]
