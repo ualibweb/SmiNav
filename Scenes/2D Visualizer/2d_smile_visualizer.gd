@@ -9,18 +9,19 @@ const BASE_ATOM = preload("res://Scenes/Atoms/base_atom.tscn")
 
 # Node references using 'onready' to ensure they are initialized when the script is ready.
 @onready var structure = $Structure
-@onready var h_box_container = $"Control/SMILES Container/ScrollContainer/HBoxContainer"
-@onready var v_box_container = $"Control/Branches Container/ScrollContainer/VBoxContainer"
-@onready var neighbors_checkbox = $Control/Options/Neighbors
-@onready var rings_checkbox = $Control/Options/Rings
+@onready var h_box_container = $"CanvasLayer/Control/SMILES Container/ScrollContainer/HBoxContainer"
+@onready var v_box_container = $"CanvasLayer/Control/Branches Container/ScrollContainer/VBoxContainer"
+
+@onready var neighbors_checkbox = $CanvasLayer/Control/Options/Neighbors
+@onready var rings_checkbox = $CanvasLayer/Control/Options/Rings
 
 # Gets the viewport size for layout calculations.
 @onready var viewport = get_viewport_rect().size
 
 # UI elements for user interaction.
-@onready var _3d_button = $"Control/VBoxContainer/3D Button"
-@onready var back = $Control/VBoxContainer/Back
-@onready var option_button = $Control/Options/HBoxContainer/OptionButton
+@onready var _3d_button = $"CanvasLayer/Control/VBoxContainer/3D Button"
+@onready var back = $CanvasLayer/Control/VBoxContainer/Back
+@onready var option_button = $CanvasLayer/Control/Options/HBoxContainer/OptionButton
 const COUR = preload("res://Fonts/cour.ttf")
 const ELEMENT_BUTTON = preload("res://Utils/Element Button/element_button.tscn")
 const BRANCH_BUTTON = preload("res://Utils/Branches Button/branch_button.tscn")

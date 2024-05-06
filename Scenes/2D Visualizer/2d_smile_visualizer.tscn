@@ -15,6 +15,7 @@ border_color = Color(1, 1, 1, 1)
 script = ExtResource("1_8mkie")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
 
 [node name="Control" type="Control" parent="CanvasLayer"]
 custom_minimum_size = Vector2(1280, 720)
@@ -215,6 +216,7 @@ theme_override_styles/focus = SubResource("StyleBoxFlat_hb4i8")
 text = "Go Back"
 
 [node name="Structure" type="Node2D" parent="."]
+z_index = 10
 
 [node name="Camera2D" type="Camera2D" parent="."]
 metadata/_edit_lock_ = true
